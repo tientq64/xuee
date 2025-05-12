@@ -1,0 +1,33 @@
+{
+    "[typescriptreact]": {
+        "editor.formatOnSave": true
+    },
+    "[typescript]": {
+        "editor.formatOnSave": true
+    },
+    "[tailwindcss]": {
+        "editor.formatOnSave": true
+    },
+    "[html]": {
+        "editor.formatOnSave": true
+    },
+    "[markdown]": {
+        "editor.formatOnSave": true,
+        "editor.wordWrap": "bounded"
+    },
+    "files.associations": {
+        "*.css": "tailwindcss"
+    },
+    "files.readonlyInclude": {
+        "node_modules/**": true,
+        "pnpm-lock.yaml": true,
+        "dist-extension/**": true,
+        "src/**/funcs.ts": true
+    },
+    "editor.wordWrapColumn": 100,
+    "editor.wordWrap": "bounded",
+    "editor.codeActionsOnSave": {
+        "source.addMissingImports.ts": "explicit",
+        "source.organizeImports": "explicit"
+    }
+}
