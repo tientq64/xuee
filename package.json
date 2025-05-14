@@ -3,7 +3,12 @@
     "version": "0.1.0",
     "private": true,
     "description": "Xueeee!",
+    "homepage": "https://xuee.vercel.app",
     "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/tientq64/xue.git"
+    },
     "author": {
         "name": "tientq64",
         "email": "tientq64@gmail.com"
