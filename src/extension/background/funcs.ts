@@ -1,5 +1,6 @@
-import { browserBack } from './funcs/browserBack'
-import { browserFullscreen } from './funcs/browserFullscreen'
-export const backgroundFuncs = { browserBack, browserFullscreen }
-export const backgroundFuncNames = ['browserBack', 'browserFullscreen']
+import { backBrowser } from './funcs/backBrowser'
+import { fullscreen } from './funcs/fullscreen'
+import { reloadTab } from './funcs/reloadTab'
+export const backgroundFuncs = { backBrowser, fullscreen, reloadTab }
+export const backgroundFuncNames = ['backBrowser', 'fullscreen', 'reloadTab']
 export type BackgroundFuncs = typeof backgroundFuncs

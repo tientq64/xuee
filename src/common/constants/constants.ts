@@ -1,1 +1,1 @@
-export const peerId: string = 'xueFemiv4bnmDkKwLAZFlHx8'
+export const peerId: string = 'xueFemiv4bnmDkKwLAZFlHX8'

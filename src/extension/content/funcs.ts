@@ -1,4 +1,4 @@
-import { reload } from './funcs/reload'
-export const contentFuncs = { reload }
-export const contentFuncNames = ['reload']
+import { back } from './funcs/back'
+export const contentFuncs = { back }
+export const contentFuncNames = ['back']
 export type ContentFuncs = typeof contentFuncs

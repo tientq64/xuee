@@ -1,16 +1,20 @@
 import { DataConnection } from 'peerjs'
-import { proxy } from 'valtio'
+import { proxy, useSnapshot } from 'valtio'
 import { SiteName } from '../../../common/types/types'
-import { Sheet } from './types/types'
+import { PeerError } from './types/types'
 
 export interface Remote {
-    siteName: string
-    currentSheet: Sheet | undefined
+    siteName: SiteName
     conn: DataConnection | undefined
+    peerError: PeerError | undefined
 }
 
 export const remote = proxy<Remote>({
     siteName: SiteName.Other,
-    currentSheet: undefined,
-    conn: undefined
+    conn: undefined,
+    peerError: undefined
 })
+
+export function useRemote() {
+    return useSnapshot(remote)
+}

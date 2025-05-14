@@ -10,23 +10,33 @@ import { background } from '../store'
 export function startHostPeer(): void {
     const peer: Peer = new Peer(peerId)
     peer.on('connection', handlePeerConnection)
+    peer.on('error', handlePeerError)
     peer.on('disconnected', handlePeerDisconnected)
 }
 
 function handlePeerConnection(conn: DataConnection): void {
+    conn.on('open', () => handleConnOpen(conn))
     conn.on('data', handleConnData)
-    background.conn = ref(conn)
+}
+
+function handlePeerError(): void {
+    setTimeout(startHostPeer, 5000)
 }
 
 function handlePeerDisconnected(): void {
     setTimeout(startHostPeer, 5000)
 }
 
+function handleConnOpen(conn: DataConnection): void {
+    background.conn = ref(conn)
+    sender.receiveSiteUrl(background.currentTab?.url ?? '')
+}
+
 function handleConnData(data: unknown): void {
     if (!isValidDataPacket(data)) return
     const [funcName, args] = data
     if (remoteFuncNames.includes(funcName)) return
-    const func: Function =
+    const func: Function | undefined =
         backgroundFuncs[funcName as keyof BackgroundFuncs] ?? sender[funcName as keyof {}]
-    func(...args)
+    func?.(...args)
 }

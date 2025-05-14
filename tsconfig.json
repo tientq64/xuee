@@ -1,21 +1,21 @@
 {
     "compilerOptions": {
         "target": "ESNext",
-        "useDefineForClassFields": true,
-        "lib": ["DOM", "DOM.Iterable", "ESNext"],
-        "skipLibCheck": true,
-        "esModuleInterop": false,
-        "allowSyntheticDefaultImports": true,
-        "strict": true,
-        "forceConsistentCasingInFileNames": true,
         "module": "ESNext",
         "moduleResolution": "Bundler",
-        "resolveJsonModule": true,
+        "lib": ["ESNext", "DOM", "DOM.Iterable"],
+        "jsx": "react-jsx",
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": false,
+        "forceConsistentCasingInFileNames": true,
         "isolatedModules": true,
         "noEmit": true,
-        "jsx": "react-jsx",
-        "types": ["vite/client", "chrome-types"]
+        "strict": true,
+        "skipLibCheck": true,
+        "resolveJsonModule": true,
+        "useDefineForClassFields": true,
+        "types": ["vite/client", "chrome"]
     },
-    "include": ["src", "scripts", "prettier.config.ts"],
+    "include": ["src"],
     "exclude": ["node_modules"]
 }

@@ -3,3 +3,7 @@ export enum SiteName {
     TikTok = 'tiktok',
     Other = 'other'
 }
+
+export type RealSiteName = Exclude<SiteName, 'other'>
+
+export type AnyFunction = (...args: any[]) => any

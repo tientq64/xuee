@@ -1,17 +1,24 @@
 import { MaterialSymbols } from 'material-design-icons-literal-types'
+import { PeerErrorType, PeerError as PeerJsError } from 'peerjs'
+import { ReactElement } from 'react'
+import { AnyFunction } from '../../../../common/types/types'
 
 export enum TileColor {
-    Red = 'text-rose-300',
+    Red = 'text-rose-400',
     Yellow = 'text-orange-300',
-    Green = 'text-green-300',
-    Blue = 'text-blue-300'
+    Green = 'text-emerald-400',
+    Blue = 'text-blue-400',
+    Gray = 'text-slate-400'
 }
 
 export interface Tile {
-    text: string
-    icon: MaterialSymbols
+    text?: string
+    icon?: MaterialSymbols
     color?: TileColor
-    press?: () => void
+    spin?: boolean
+    disabled?: boolean
+    press?: AnyFunction | null
+    content?: ReactElement
 }
 
 export type Tileset = [pressTile?: Tile, holdTile?: Tile, moveTile?: Tile]
@@ -45,3 +52,5 @@ export type SheetCoord =
 export type SheetTile = Tileset | Tile
 
 export type Sheet = Partial<Record<SheetCoord, SheetTile>>
+
+export type PeerError = PeerJsError<PeerErrorType>

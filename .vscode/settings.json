@@ -11,6 +11,9 @@
     "[html]": {
         "editor.formatOnSave": true
     },
+    "[yaml]": {
+        "editor.formatOnSave": true
+    },
     "[markdown]": {
         "editor.formatOnSave": true,
         "editor.wordWrap": "bounded"
@@ -27,6 +30,7 @@
     "editor.wordWrapColumn": 100,
     "editor.wordWrap": "bounded",
     "editor.codeActionsOnSave": {
+        "source.fixAll.ts": "explicit",
         "source.addMissingImports.ts": "explicit",
         "source.organizeImports": "explicit"
     }

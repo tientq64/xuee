@@ -45,7 +45,7 @@ copyFileSync('public/assets/images/icons/icon-128.png', 'dist-extension/icon-128
 
 const server = await createServer({
     server: {
-        host: 'localhost',
+        host: '0.0.0.0',
         port: 5500,
         strictPort: true
     },

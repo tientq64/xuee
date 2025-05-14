@@ -11,7 +11,7 @@ function handleRuntimeMessage(data: unknown, sender: MessageSender): undefined {
     if (!isValidDataPacket(data)) return
     const [funcName, args] = data
     if (contentFuncNames.includes(funcName)) return
-    const func: Function =
+    const func: Function | undefined =
         backgroundFuncs[funcName as keyof BackgroundFuncs] ?? sender[funcName as keyof {}]
-    func(...args)
+    func?.(...args)
 }

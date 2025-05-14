@@ -3,11 +3,11 @@ import { proxy } from 'valtio'
 import { Tab } from './types/types'
 
 export interface Background {
+    currentTab: Tab
     conn: DataConnection | undefined
-    currentTab: Tab | undefined
 }
 
 export const background = proxy<Background>({
-    conn: undefined,
-    currentTab: undefined
+    currentTab: {} as Tab,
+    conn: undefined
 })

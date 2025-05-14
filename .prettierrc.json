@@ -4,6 +4,14 @@
     "singleQuote": true,
     "tabWidth": 4,
     "trailingComma": "none",
+    "overrides": [
+        {
+            "files": "**/*.{yml,yaml}",
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ],
     "plugins": [
         "prettier-plugin-jsdoc",
         "prettier-plugin-tailwindcss",
