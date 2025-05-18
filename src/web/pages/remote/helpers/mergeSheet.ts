@@ -1,4 +1,4 @@
-import { Sheet, SheetCoord, Tileset } from '../types/types'
+import { Sheet, SheetCoord, Tileset } from '@remote/types/types'
 import { getTileset } from './getTileset'
 
 export function mergeSheet(sheetA: Sheet, sheetB: Sheet): Sheet {

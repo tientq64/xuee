@@ -1,5 +1,5 @@
+import { author, description, name, version } from '@/package.json'
 import { JSONSchemaForGoogleChromeExtensionManifestFiles } from '@schemastore/chrome-manifest'
-import { author, description, name, version } from '../../package.json'
 
 export const manifest: JSONSchemaForGoogleChromeExtensionManifestFiles = {
     manifest_version: 2,
@@ -24,7 +24,8 @@ export const manifest: JSONSchemaForGoogleChromeExtensionManifestFiles = {
         }
     ],
     background: {
-        scripts: ['background.js']
+        scripts: ['background.js'],
+        persistent: true
     },
     web_accessible_resources: ['content.js', 'content.css'],
     content_security_policy: "script-src 'self' 'unsafe-eval'; object-src 'self'",

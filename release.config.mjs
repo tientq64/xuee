@@ -1,21 +1,8 @@
-import conventionalChangelogEmoji from '@favoloso/conventional-changelog-emoji'
-
 export const branches = ['main']
+
 export const plugins = [
-    [
-        '@semantic-release/commit-analyzer',
-        {
-            preset: 'conventionalcommits'
-        }
-    ],
-    [
-        '@semantic-release/release-notes-generator',
-        {
-            writerOpts: {
-                transform: conventionalChangelogEmoji
-            }
-        }
-    ],
+    '@semantic-release/commit-analyzer',
+    '@semantic-release/release-notes-generator',
     '@semantic-release/changelog',
     [
         '@semantic-release/git',

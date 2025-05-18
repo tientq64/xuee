@@ -1,35 +1,48 @@
-import Peer, { DataConnection } from 'peerjs'
-import { ref } from 'valtio'
-import { peerId } from '../../../../common/constants/constants'
-import { isValidDataPacket } from '../../../../common/helpers/isValidDataPacket'
-import { RemoteFuncs, remoteFuncs } from '../funcs'
-import { reconnectErrorPeer } from '../funcs/reconnectErrorPeer'
-import { remote } from '../store'
-import { PeerError } from '../types/types'
+import { peerId } from '@common/constants/constants'
+import { isValidDataPacket } from '@common/helpers/isValidDataPacket'
+import { ref } from '@common/helpers/ref'
+import { safeCall } from '@common/utils/safeCall'
+import { remoteFuncs, RemoteFuncs } from '@remote/funcs'
+import { reconnectErrorPeer } from '@remote/funcs/reconnectErrorPeer'
+import { reconnectPeer } from '@remote/funcs/reconnectPeer'
+import { remote } from '@remote/store'
+import Peer, { DataConnection, PeerError } from 'peerjs'
 
 export function startClientPeer(): void {
     const peer: Peer = new Peer()
-    peer.on('open', () => handlePeerOpen(peer))
+    remote.peer = ref(peer)
     peer.on('error', handlePeerError)
     peer.on('disconnected', handlePeerDisconnected)
+    peer.on('open', handlePeerOpen)
 }
 
-function handlePeerOpen(peer: Peer): void {
-    const conn: DataConnection = peer.connect(peerId)
-    conn.on('open', () => handleConnOpen(conn))
-    conn.on('data', handleConnData)
-    conn.on('close', handleConnClose)
-    conn.on('iceStateChanged', handleConnIceStateChanged)
-}
-
-function handlePeerError(error: PeerError): void {
+function handlePeerError(error: PeerError<any>): void {
     remote.conn = undefined
     remote.peerError = error
     reconnectErrorPeer(2000)
 }
 
 function handlePeerDisconnected(): void {
-    startClientPeer()
+    reconnectPeer()
+}
+
+function handlePeerOpen(): void {
+    const { peer } = remote
+    if (peer === undefined) return
+    const conn: DataConnection = peer.connect(peerId)
+    conn.on('close', handleConnClose)
+    conn.on('iceStateChanged', handleConnIceStateChanged)
+    conn.on('open', handleConnOpen.bind(null, conn))
+    conn.on('data', handleConnData)
+}
+
+function handleConnClose(): void {
+    reconnectPeer()
+}
+
+function handleConnIceStateChanged(iceState: RTCIceConnectionState): void {
+    if (iceState !== 'disconnected') return
+    reconnectPeer()
 }
 
 function handleConnOpen(conn: DataConnection): void {
@@ -41,14 +54,5 @@ function handleConnData(data: unknown): void {
     if (!isValidDataPacket(data)) return
     const [funcName, args] = data
     const func: Function | undefined = remoteFuncs[funcName as keyof RemoteFuncs]
-    func?.(...args)
-}
-
-function handleConnClose(): void {
-    startClientPeer()
-}
-
-function handleConnIceStateChanged(iceState: RTCIceConnectionState): void {
-    if (iceState !== 'disconnected') return
-    startClientPeer()
+    safeCall(func, ...args)
 }

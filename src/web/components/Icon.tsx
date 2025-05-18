@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import { clsm } from '@common/utils/clsm'
 import { MaterialSymbols } from 'material-design-icons-literal-types'
 import { ReactElement } from 'react'
 
@@ -16,7 +16,7 @@ export function Icon({ className, name, source = name ?? '', size = 32 }: IconPr
         <>
             {!isUrl && (
                 <span
-                    className={clsx('material-symbols-rounded', className)}
+                    className={clsm('material-symbols-rounded', className)}
                     style={{
                         fontSize: size
                     }}

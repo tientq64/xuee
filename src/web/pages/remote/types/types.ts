@@ -1,7 +1,6 @@
+import { AnyFunction } from '@common/types/types'
 import { MaterialSymbols } from 'material-design-icons-literal-types'
-import { PeerErrorType, PeerError as PeerJsError } from 'peerjs'
 import { ReactElement } from 'react'
-import { AnyFunction } from '../../../../common/types/types'
 
 export enum TileColor {
     Red = 'text-rose-400',
@@ -12,11 +11,14 @@ export enum TileColor {
 }
 
 export interface Tile {
-    text?: string
+    text?: string | number
     icon?: MaterialSymbols
+    iconText?: string | number
     color?: TileColor
     spin?: boolean
+    className?: string
     disabled?: boolean
+    subSheetName?: SubSheetName
     press?: AnyFunction | null
     content?: ReactElement
 }
@@ -48,9 +50,15 @@ export type SheetCoord =
     | '70'
     | '71'
     | '72'
+    | '80'
+    | '81'
+    | '82'
 
 export type SheetTile = Tileset | Tile
 
 export type Sheet = Partial<Record<SheetCoord, SheetTile>>
 
-export type PeerError = PeerJsError<PeerErrorType>
+export enum SubSheetName {
+    More = 'more',
+    Click = 'click'
+}

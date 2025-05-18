@@ -1,21 +1,67 @@
+import { background } from '@background/store'
+import { Tab } from '@background/types/types'
+import { ref } from '@common/helpers/ref'
 import chromep from 'chrome-promise'
-import { ref } from '../../../common/helpers/ref'
-import { sender } from '../constants/sender'
-import { background } from '../store'
-import { Tab } from '../types/types'
+import { getActiveTab } from './getActiveTab'
+import { sendTabInfoToRemote } from './sendTabInfoToRemote'
+import { sendTabTotalToRemote } from './sendTabTotalToRemote'
 
 export function startEvents(): void {
-    chrome.tabs.onUpdated.addListener((_, { url }, tab) => {
+    chrome.tabs.onUpdated.addListener((_, changeInfo, tab) => {
+        const { currentTab } = background
+        if (currentTab === undefined) return
+        if (currentTab.windowId !== tab.windowId) return
         if (!tab.active) return
         background.currentTab = ref(tab)
-        if (url !== undefined) {
-            sender.receiveSiteUrl(url ?? '')
+        if (changeInfo.url !== undefined) {
+            sendTabInfoToRemote(tab)
         }
     })
 
-    chrome.tabs.onActivated.addListener(async ({ tabId }) => {
-        const tab: Tab = await chromep.tabs.get(tabId)
+    chrome.tabs.onActivated.addListener(async (activeInfo) => {
+        const tab: Tab = await chromep.tabs.get(activeInfo.tabId)
         background.currentTab = ref(tab)
-        sender.receiveSiteUrl(tab.url ?? '')
+        sendTabInfoToRemote(tab)
+    })
+
+    chrome.tabs.onMoved.addListener(async () => {
+        const tab: Tab | undefined = await getActiveTab()
+        background.currentTab = ref(tab)
+        sendTabInfoToRemote(tab, true)
+    })
+
+    chrome.tabs.onCreated.addListener(async (newTab) => {
+        const tab: Tab | undefined = await getActiveTab()
+        background.currentTab = ref(tab)
+        sendTabInfoToRemote(tab, !newTab.active)
+        sendTabTotalToRemote()
+    })
+
+    chrome.tabs.onRemoved.addListener(async () => {
+        const tab: Tab | undefined = await getActiveTab()
+        background.currentTab = ref(tab)
+        sendTabInfoToRemote(tab, true)
+        sendTabTotalToRemote()
+    })
+
+    chrome.tabs.onAttached.addListener(async () => {
+        const tab: Tab | undefined = await getActiveTab()
+        background.currentTab = ref(tab)
+        sendTabInfoToRemote(tab, true)
+        sendTabTotalToRemote()
+    })
+
+    chrome.tabs.onDetached.addListener(async () => {
+        const tab: Tab | undefined = await getActiveTab()
+        background.currentTab = ref(tab)
+        sendTabInfoToRemote(tab, true)
+        sendTabTotalToRemote()
+    })
+
+    chrome.windows.onFocusChanged.addListener(async () => {
+        const tab: Tab | undefined = await getActiveTab()
+        background.currentTab = ref(tab)
+        sendTabInfoToRemote(tab)
+        sendTabTotalToRemote()
     })
 }

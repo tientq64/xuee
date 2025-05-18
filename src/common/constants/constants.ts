@@ -1,1 +1,6 @@
-export const peerId: string = 'xueFemiv4bnmDkKwLAZFlHX8'
+export const peerId: string = 'xue-Femiv4bnmDkKwLAZFlHx8'
+
+export enum ScrollAmount {
+    Base = 300,
+    Max = 30_000
+}

@@ -1,7 +1,7 @@
-import tailwindcss from '@tailwindcss/vite'
-import react from '@vitejs/plugin-react'
+import { tailwindPlugin } from 'esbuild-plugin-tailwindcss'
 import { copyFileSync, writeFileSync } from 'fs'
 import { createServer } from 'vite'
+import { viteConfig } from '../constants/viteConfig'
 import { watchBuild } from '../helpers/watchBuild'
 import { watchGlob } from '../helpers/watchGlob'
 import { generateFuncsFiles } from './generateFuncsFiles'
@@ -16,41 +16,27 @@ watchGlob(['src/extension/manifest.ts', 'package.json'], null, async () => {
 
 watchBuild({
     entryPoints: ['src/extension/content/content.ts'],
-    outfile: 'dist-extension/content.js',
-    bundle: true,
-    minify: true
+    outfile: 'dist-extension/content.js'
 })
 watchBuild({
     entryPoints: ['src/extension/content/content.css'],
     outfile: 'dist-extension/content.css',
-    bundle: true,
-    minify: true
+    plugins: [tailwindPlugin()]
 })
 watchBuild({
     entryPoints: ['src/extension/content/loader.ts'],
-    outfile: 'dist-extension/loader.js',
-    bundle: true,
-    minify: true
+    outfile: 'dist-extension/loader.js'
 })
 watchBuild({
     entryPoints: ['src/extension/background/background.ts'],
-    outfile: 'dist-extension/background.js',
-    bundle: true,
-    minify: true
+    outfile: 'dist-extension/background.js'
 })
 
 generateFuncsFiles()
 
 copyFileSync('public/assets/images/icons/icon-128.png', 'dist-extension/icon-128.png')
 
-const server = await createServer({
-    server: {
-        host: '0.0.0.0',
-        port: 5500,
-        strictPort: true
-    },
-    plugins: [react(), tailwindcss()]
-})
+const server = await createServer(viteConfig)
 await server.listen()
 server.printUrls()
 server.bindCLIShortcuts({ print: true })

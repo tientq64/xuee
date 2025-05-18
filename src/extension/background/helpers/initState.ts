@@ -1,9 +1,9 @@
-import chromep from 'chrome-promise'
-import { ref } from '../../../common/helpers/ref'
-import { background } from '../store'
-import { Tab } from '../types/types'
+import { background } from '@background/store'
+import { Tab } from '@background/types/types'
+import { ref } from '@common/helpers/ref'
+import { getActiveTab } from './getActiveTab'
 
 export async function initState(): Promise<void> {
-    const [currentTab]: Tab[] = await chromep.tabs.query({ active: true })
+    const currentTab: Tab | undefined = await getActiveTab()
     background.currentTab = ref(currentTab)
 }

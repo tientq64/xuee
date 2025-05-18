@@ -1,9 +1,10 @@
-import clsx from 'clsx'
+import { clsm } from '@common/utils/clsm'
+import { safeCall } from '@common/utils/safeCall'
+import { vibrate } from '@remote/funcs/vibrate'
+import { remote, useRemote } from '@remote/store'
+import { SubSheetName, Tile, TileColor, Tileset } from '@remote/types/types'
 import { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
-import { safeCall } from '../../../../common/utils/safeCall'
-import { Icon } from '../../../components/Icon'
-import { vibrate } from '../funcs/vibrate'
-import { Tile, TileColor, Tileset } from '../types/types'
+import { TileIconTag } from './TileIconTag'
 
 interface TileTagProps {
     tileset: Tileset
@@ -11,6 +12,8 @@ interface TileTagProps {
 }
 
 export function TileTag({ tileset, index }: TileTagProps): ReactElement {
+    const { subSheetName } = useRemote()
+
     const [pressed, setPressed] = useState<boolean>(false)
     const [holded, setHolded] = useState<boolean>(false)
     const [moved, setMoved] = useState<boolean>(false)
@@ -48,15 +51,25 @@ export function TileTag({ tileset, index }: TileTagProps): ReactElement {
     const handleTouchEnd = (): void => {
         clearTimeout(holdingTimeoutId.current)
         if (!moved && tile !== undefined) {
-            safeCall(tile.press)
+            handlePress()
         }
         setPressed(false)
         setHolded(false)
         setMoved(false)
     }
 
+    const handlePress = (): void => {
+        if (tile === undefined) return
+        safeCall(tile.press)
+        if (tile.subSheetName !== undefined) {
+            const newSubSheetName: SubSheetName | undefined =
+                tile.subSheetName === subSheetName ? undefined : tile.subSheetName
+            remote.subSheetName = newSubSheetName
+        }
+    }
+
     useEffect(() => {
-        if (!pressed) return
+        if (!pressed || tile === undefined) return
         vibrate()
     }, [pressed])
 
@@ -66,56 +79,53 @@ export function TileTag({ tileset, index }: TileTagProps): ReactElement {
     }, [holded])
 
     useEffect(() => {
-        return () => {
-            clearTimeout(holdingTimeoutId.current)
-        }
+        return () => clearTimeout(holdingTimeoutId.current)
     }, [])
 
     return (
         <div
-            className={clsx(
-                'relative rounded-md px-2',
+            className={clsm(
+                'relative rounded-md',
                 cornerTileClasses[index],
-                pressed && pressColor,
-                pressed ? 'scale-105' : 'bg-zinc-900 transition duration-700 ease-out',
-                holded && 'z-1 outline-[3px] outline-orange-300'
+                tile !== undefined && 'z-10',
+                pressed && (tile !== undefined || subTile !== undefined)
+                    ? ['scale-105', pressColor]
+                    : 'bg-zinc-900 transition-[scale,background-color] duration-700 ease-out',
+                holded && 'z-20 outline-[3px] outline-orange-300'
             )}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
         >
             {tile !== undefined && (
-                <>
-                    {tile.content ?? (
-                        <div
-                            className={clsx(
-                                `pointer-events-none flex h-full flex-col items-center
-                                justify-center gap-2`,
-                                tile.color,
-                                tile.disabled && 'text-zinc-500'
-                            )}
-                        >
-                            {tile.icon !== undefined && (
-                                <Icon
-                                    className={clsx(tile.spin && 'animate-spin')}
-                                    source={tile.icon}
-                                />
-                            )}
-                            <div className="h-8 text-center leading-4">{tile.text}</div>
-                        </div>
+                <div
+                    className={clsm(
+                        `pointer-events-none flex size-full flex-col items-center justify-center
+                        gap-2 p-2`,
+                        tile.color,
+                        tile.disabled && 'text-zinc-500'
                     )}
-                </>
+                >
+                    {tile.content ?? (
+                        <>
+                            <TileIconTag tile={tile} />
+                            <div className="min-h-8 text-center leading-4 empty:min-h-4">
+                                {tile.text}
+                            </div>
+                        </>
+                    )}
+                </div>
             )}
 
             {subTile !== undefined && (
                 <div
-                    className={clsx(
+                    className={clsm(
                         'pointer-events-none absolute top-0.5 right-1',
                         subTile.color,
                         subTile.disabled ? 'text-zinc-800' : 'text-zinc-500'
                     )}
                 >
-                    {subTile.icon !== undefined && <Icon source={subTile.icon} size={24} />}
+                    <TileIconTag tile={subTile} isSubTile />
                 </div>
             )}
         </div>
@@ -131,7 +141,7 @@ const cornerTileClasses: Record<number, string> = {
 
 const pressColorsMap: Record<TileColor, string> = {
     [TileColor.Red]: 'bg-rose-500/50',
-    [TileColor.Yellow]: 'bg-orange-500/50',
+    [TileColor.Yellow]: 'bg-orange-400/50',
     [TileColor.Green]: 'bg-emerald-500/50',
     [TileColor.Blue]: 'bg-blue-500/50',
     [TileColor.Gray]: 'bg-slate-500/50'

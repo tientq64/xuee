@@ -1,4 +1,4 @@
-import { remote } from '../store'
+import { remote } from '@remote/store'
 import { reconnectPeer } from './reconnectPeer'
 
 let delayTimeoutId: number = 0

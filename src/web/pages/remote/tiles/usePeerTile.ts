@@ -1,13 +1,12 @@
+import { reconnectPeer } from '@remote/funcs/reconnectPeer'
+import { useRemote } from '@remote/store'
+import { Tile, TileColor } from '@remote/types/types'
 import { useNetwork } from 'ahooks'
 import { MaterialSymbols } from 'material-design-icons-literal-types'
 import { PeerErrorType } from 'peerjs'
-import { upperFirst } from '../../../../common/utils/upperFirst'
-import { reconnectPeer } from '../funcs/reconnectPeer'
-import { useRemote } from '../store'
-import { Tile, TileColor } from '../types/types'
 
 export function usePeerTile(): Tile {
-    const { conn, peerError, siteName } = useRemote()
+    const { conn, peerError, site } = useRemote()
     const { effectiveType } = useNetwork()
 
     if (peerError !== undefined) {
@@ -49,7 +48,7 @@ export function usePeerTile(): Tile {
 
     if (conn !== undefined) {
         return {
-            text: upperFirst(siteName),
+            text: site.name,
             icon: networkEffectiveIconNames[effectiveType ?? '4g'],
             color: TileColor.Green,
             press: reconnectPeer
@@ -60,8 +59,7 @@ export function usePeerTile(): Tile {
         text: 'Đang kết nối...',
         icon: 'data_usage',
         color: TileColor.Gray,
-        spin: true,
-        press: reconnectPeer
+        spin: true
     }
 }
 

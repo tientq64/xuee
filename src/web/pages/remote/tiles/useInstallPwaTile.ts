@@ -1,5 +1,5 @@
+import { Tile } from '@remote/types/types'
 import { usePWAInstall } from 'react-use-pwa-install'
-import { Tile } from '../types/types'
 
 export function useInstallPwaTile(): Tile {
     const installPwa = usePWAInstall()

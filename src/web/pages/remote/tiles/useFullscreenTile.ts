@@ -1,5 +1,5 @@
-import { sender } from '../constants/sender'
-import { Tile } from '../types/types'
+import { sender } from '@remote/constants/sender'
+import { Tile } from '@remote/types/types'
 
 export function useFullscreenTile(): Tile {
     return {

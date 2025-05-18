@@ -1,8 +1,11 @@
-import { startClientPeer } from '../helpers/startClientPeer'
-import { remote } from '../store'
+import { remote } from '@remote/store'
 
 export function reconnectPeer(): void {
     remote.conn = undefined
     remote.peerError = undefined
-    startClientPeer()
+
+    const { peer } = remote
+    if (peer === undefined) return
+    peer.disconnect()
+    peer.reconnect()
 }

@@ -1,6 +1,29 @@
-import { backBrowser } from './funcs/backBrowser'
+import { closeTab } from './funcs/closeTab'
 import { fullscreen } from './funcs/fullscreen'
+import { moveTab } from './funcs/moveTab'
+import { navigate } from './funcs/navigate'
+import { navigateBrowser } from './funcs/navigateBrowser'
 import { reloadTab } from './funcs/reloadTab'
-export const backgroundFuncs = { backBrowser, fullscreen, reloadTab }
-export const backgroundFuncNames = ['backBrowser', 'fullscreen', 'reloadTab']
+import { reopenClosedTab } from './funcs/reopenClosedTab'
+import { switchTab } from './funcs/switchTab'
+export const backgroundFuncs = {
+    closeTab,
+    fullscreen,
+    moveTab,
+    navigate,
+    navigateBrowser,
+    reloadTab,
+    reopenClosedTab,
+    switchTab
+}
+export const backgroundFuncNames = [
+    'closeTab',
+    'fullscreen',
+    'moveTab',
+    'navigate',
+    'navigateBrowser',
+    'reloadTab',
+    'reopenClosedTab',
+    'switchTab'
+]
 export type BackgroundFuncs = typeof backgroundFuncs

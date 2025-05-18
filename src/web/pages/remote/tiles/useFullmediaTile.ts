@@ -1,4 +1,4 @@
-import { Tile } from '../types/types'
+import { Tile } from '@remote/types/types'
 
 export function useFullmediaTile(): Tile {
     return {

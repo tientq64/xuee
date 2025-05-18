@@ -20,7 +20,7 @@
     ],
     "jsdocDescriptionWithDot": true,
     "customAttributes": ["className", "class"],
-    "customFunctions": ["clsx"],
+    "customFunctions": ["clsm"],
     "endingPosition": "absolute-with-indent",
     "experimentalOptimization": true
 }

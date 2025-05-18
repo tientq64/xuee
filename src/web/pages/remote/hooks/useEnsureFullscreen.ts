@@ -1,3 +1,4 @@
+import { isRealPC } from '@web/helpers/isRealPC'
 import { useEventListener, useFullscreen } from 'ahooks'
 
 export function useEnsureFullscreen(): void {
@@ -5,6 +6,7 @@ export function useEnsureFullscreen(): void {
 
     useEventListener('pointerup', () => {
         if (isFullscreen) return
+        if (isRealPC()) return
         enterFullscreen()
     })
 }

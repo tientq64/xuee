@@ -1,5 +1,5 @@
-import { castArray } from '../../../../common/utils/castArray'
-import { Sheet, SheetCoord, SheetTile, Tileset } from '../types/types'
+import { castArray } from '@common/utils/castArray'
+import { Sheet, SheetCoord, SheetTile, Tileset } from '@remote/types/types'
 
 export function getTileset(sheet: Sheet, coord: string): Tileset {
     const sheetTile: SheetTile | undefined = sheet[coord as SheetCoord]

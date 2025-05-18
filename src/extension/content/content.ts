@@ -1,3 +1,3 @@
-import { content } from './store'
+import { startClientMessenger } from './helpers/startClientMessenger'
 
-content.siteName
+startClientMessenger()

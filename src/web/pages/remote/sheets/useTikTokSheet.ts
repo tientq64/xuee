@@ -1,4 +1,4 @@
-import { Sheet } from '../types/types'
+import { Sheet } from '@remote/types/types'
 
 export function useTikTokSheet(): Sheet {
     return {}

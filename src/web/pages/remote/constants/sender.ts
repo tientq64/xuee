@@ -1,8 +1,8 @@
-import { BackgroundFuncs } from '../../../../extension/background/funcs'
-import { ContentFuncs } from '../../../../extension/content/funcs'
-import { remote } from '../store'
+import { BackgroundFuncs } from '@background/funcs'
+import { ContentFuncs } from '@content/funcs'
+import { remote } from '@remote/store'
 
-export const sender = new Proxy<ContentFuncs & BackgroundFuncs>({} as any, {
+export const sender = new Proxy<BackgroundFuncs & ContentFuncs>({} as any, {
     get: (_, funcName: string): Function => {
         return (...args: any[]): void => {
             remote.conn?.send([funcName, args])

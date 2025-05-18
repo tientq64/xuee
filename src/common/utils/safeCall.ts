@@ -1,7 +1,7 @@
-import { AnyFunction } from '../types/types'
+import { AnyFunction } from '@common/types/types'
 
 export function safeCall<T extends AnyFunction>(
-    func: T | null | undefined,
+    func: T | Function | null | undefined,
     ...args: Parameters<T>
 ): ReturnType<T> | void {
     if (typeof func !== 'function') return

@@ -1,3 +1,3 @@
-export function reloadTab(): void {
-    chrome.tabs.reload()
+export async function reloadTab(): Promise<void> {
+    await chrome.tabs.reload()
 }

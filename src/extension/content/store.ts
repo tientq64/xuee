@@ -1,10 +1,11 @@
+import { Site } from '@common/constants/sites'
+import { getSiteByUrl } from '@common/helpers/getSiteByUrl'
 import { proxy } from 'valtio'
-import { getSiteNameByUrl } from '../../common/helpers/getSiteNameByUrl'
 
 export interface Content {
-    siteName: string
+    site: Site
 }
 
 export const content = proxy<Content>({
-    siteName: getSiteNameByUrl(location.href)
+    site: getSiteByUrl(location.href)
 })

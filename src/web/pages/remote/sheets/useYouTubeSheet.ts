@@ -1,5 +1,5 @@
-import { useFullmediaTile } from '../tiles/useFullmediaTile'
-import { Sheet } from '../types/types'
+import { Sheet } from '@remote/types/types'
+import { useFullmediaTile } from '@tiles/useFullmediaTile'
 
 export function useYouTubeSheet(): Sheet {
     return {
