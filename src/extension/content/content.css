@@ -3,11 +3,11 @@
 
 @layer theme, utilities;
 
-[data-xue-click-numb] {
+[data-xuee-click-numb] {
     @apply relative bg-orange-300/10;
 
     &::after {
-        content: attr(data-xue-click-numb);
+        content: attr(data-xuee-click-numb);
         @apply absolute top-0 right-0 z-50 flex h-[16px] items-center justify-center rounded-[4px] bg-pink-600 px-[4px] font-sans text-[14px] text-white;
     }
 }

@@ -16,7 +16,7 @@ export const manifest: JSONSchemaForGoogleChromeExtensionManifestFiles = {
             exclude_matches: [
                 'http://localhost:5500/',
                 'http://192.168.1.4:5500/',
-                'https://xue.vercel.app/'
+                'https://xuee.vercel.app/'
             ],
             js: ['loader.js'],
             run_at: 'document_idle',

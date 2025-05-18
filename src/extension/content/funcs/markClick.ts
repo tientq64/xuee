@@ -14,7 +14,7 @@ const selectorsMap: Record<SiteName, string[]> = {
     [SiteName.Other]: ['a, button, [role="button"]']
 }
 
-export const clickNumbAttr: string = 'data-xue-click-numb'
+export const clickNumbAttr: string = 'data-xuee-click-numb'
 
 export function markClick(): void {
     const { site } = content
