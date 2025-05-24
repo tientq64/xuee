@@ -1,4 +1,32 @@
 {
+    "editor.wordWrapColumn": 100,
+    "editor.wordWrap": "bounded",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.ts": "explicit",
+        "source.addMissingImports.ts": "explicit",
+        "source.organizeImports": "explicit"
+    },
+    "typescript.preferences.useAliasesForRenames": false,
+    "files.associations": {
+        "*.css": "tailwindcss"
+    },
+    "files.readonlyInclude": {
+        "node_modules/**": true,
+        "pnpm-lock.yaml": true,
+        "dist/**": true,
+        "dist-*/**": true,
+        "src/*/*/constants/{funcs,funcNames}.ts": true,
+        "run.{js,vbs}": true,
+        "setup.js": true
+    },
+    "material-icon-theme.folders.associations": {
+        "sheets": "app",
+        "tiles": "ui",
+        "background": "middleware",
+        "system": "windows"
+    },
+    "tailwindCSS.classFunctions": ["clsm"],
     "[typescriptreact]": {
         "editor.formatOnSave": true
     },
@@ -14,29 +42,17 @@
     "[yaml]": {
         "editor.formatOnSave": true
     },
+    "[json]": {
+        "editor.formatOnSave": true
+    },
+    "[jsonc]": {
+        "editor.formatOnSave": true
+    },
     "[markdown]": {
         "editor.formatOnSave": true,
         "editor.wordWrap": "bounded"
     },
-    "files.associations": {
-        "*.css": "tailwindcss"
-    },
-    "files.readonlyInclude": {
-        "node_modules/**": true,
-        "pnpm-lock.yaml": true,
-        "dist-extension/**": true,
-        "src/**/funcs.ts": true
-    },
-    "material-icon-theme.folders.associations": {
-        "sheets": "app",
-        "tiles": "ui"
-    },
-    "editor.wordWrapColumn": 100,
-    "editor.wordWrap": "bounded",
-    "editor.codeActionsOnSave": {
-        "source.fixAll.ts": "explicit",
-        "source.addMissingImports.ts": "explicit",
-        "source.organizeImports": "explicit"
-    },
-    "typescript.preferences.useAliasesForRenames": false
+    "[snippets]": {
+        "editor.formatOnSave": true
+    }
 }

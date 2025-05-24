@@ -1,0 +1,17 @@
+[data-xuee-click-numb] {
+    position: relative;
+    @apply xuee:relative xuee:bg-orange-300/10!;
+
+    &::after {
+        content: attr(data-xuee-click-numb);
+        @apply xuee:absolute xuee:top-0 xuee:right-0 xuee:z-50 xuee:flex xuee:h-[16px] xuee:w-fit xuee:items-center xuee:justify-center xuee:rounded-[4px] xuee:bg-pink-600 xuee:px-[4px] xuee:font-sans xuee:text-[14px] xuee:leading-[1] xuee:text-white;
+    }
+}
+
+.xuee-fullmedia {
+    @apply xuee:overflow-hidden!;
+
+    .xuee-media {
+        @apply xuee:fixed! xuee:top-0! xuee:left-0! xuee:z-[99998]! xuee:h-full! xuee:w-full!;
+    }
+}

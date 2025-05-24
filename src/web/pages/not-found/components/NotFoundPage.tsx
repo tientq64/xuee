@@ -1,6 +1,6 @@
-import { ReactNode } from 'react'
+import { VNode } from 'preact'
 
-export function NotFoundPage(): ReactNode {
+export function NotFoundPage(): VNode {
     return (
         <div className="h-full p-3">
             <div className="text-center text-zinc-300">

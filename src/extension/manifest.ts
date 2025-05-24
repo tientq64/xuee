@@ -1,9 +1,10 @@
 import { author, description, name, version } from '@/package.json'
-import { JSONSchemaForGoogleChromeExtensionManifestFiles } from '@schemastore/chrome-manifest'
+import { ExtensionV2Manifest } from '@common/types/types'
+import { upperFirst } from '@common/utils/upperFirst'
 
-export const manifest: JSONSchemaForGoogleChromeExtensionManifestFiles = {
+export const manifest: ExtensionV2Manifest = {
     manifest_version: 2,
-    name,
+    name: upperFirst(name),
     version,
     author: author.name,
     description,
@@ -14,9 +15,9 @@ export const manifest: JSONSchemaForGoogleChromeExtensionManifestFiles = {
         {
             matches: ['<all_urls>'],
             exclude_matches: [
-                'http://localhost:5500/',
-                'http://192.168.1.4:5500/',
-                'https://xuee.vercel.app/'
+                'http://localhost:5500/remote',
+                'http://192.168.1.4:5500/remote',
+                'https://xuee.vercel.app/remote'
             ],
             js: ['loader.js'],
             run_at: 'document_idle',
@@ -24,7 +25,7 @@ export const manifest: JSONSchemaForGoogleChromeExtensionManifestFiles = {
         }
     ],
     background: {
-        scripts: ['background.js'],
+        page: 'background.html',
         persistent: true
     },
     web_accessible_resources: ['content.js', 'content.css'],

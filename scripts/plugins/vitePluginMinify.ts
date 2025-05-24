@@ -1,6 +1,6 @@
-import minifyHtml from '@minify-html/node'
 import { extname } from 'path'
 import { Plugin } from 'vite'
+import { minifyHtml } from '../helpers/minifyHtml'
 
 export function vitePluginMinify(): Plugin {
     return {
@@ -24,10 +24,7 @@ export function vitePluginMinify(): Plugin {
         },
 
         transformIndexHtml: (html) => {
-            const htmlBuf: Buffer = Buffer.from(html)
-            const minHtmlBuf: Buffer = minifyHtml.minify(htmlBuf, {})
-
-            return minHtmlBuf.toString()
+            return minifyHtml(html)
         }
     }
 }

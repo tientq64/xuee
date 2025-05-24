@@ -1,0 +1,9 @@
+.xuee-site-YouTube {
+    &.xuee-fullmedia {
+        #primary,
+        #player,
+        .html5-video-container {
+            @apply xuee:z-[99999];
+        }
+    }
+}

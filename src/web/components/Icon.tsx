@@ -1,6 +1,6 @@
 import { clsm } from '@common/utils/clsm'
 import { MaterialSymbols } from 'material-design-icons-literal-types'
-import { ReactElement } from 'react'
+import { VNode } from 'preact'
 
 type IconProps = {
     className?: string
@@ -9,7 +9,7 @@ type IconProps = {
     size?: number
 }
 
-export function Icon({ className, name, source = name ?? '', size = 32 }: IconProps): ReactElement {
+export function Icon({ className, name, source = name ?? '', size = 32 }: IconProps): VNode {
     const isUrl: boolean = /^https?:\/\//.test(source)
 
     return (

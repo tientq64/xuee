@@ -1,0 +1,16 @@
+@import 'tailwindcss';
+
+@layer utilities {
+    .animate-pending {
+        animation: animate-pending 4s linear infinite;
+    }
+
+    @keyframes animate-pending {
+        from {
+            rotate: 0;
+        }
+        to {
+            rotate: -360deg;
+        }
+    }
+}

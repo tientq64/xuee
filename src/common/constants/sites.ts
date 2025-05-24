@@ -1,4 +1,4 @@
-export const enum SiteName {
+export enum SiteName {
     YouTube = 'YouTube',
     TikTok = 'TikTok',
     Other = 'Other'

@@ -5,6 +5,7 @@
         "moduleResolution": "Bundler",
         "lib": ["ESNext", "DOM", "DOM.Iterable"],
         "jsx": "react-jsx",
+        "jsxImportSource": "preact",
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": false,
         "forceConsistentCasingInFileNames": true,
@@ -17,20 +18,22 @@
         "types": ["vite/client", "chrome"],
         "baseUrl": ".",
         "paths": {
-            "@sheets/*": ["./src/web/pages/remote/sheets/*"],
-            "@tiles/*": ["./src/web/pages/remote/tiles/*"],
+            "@sheets/*": ["./src/web/remote/sheets/*"],
+            "@tiles/*": ["./src/web/remote/tiles/*"],
             "@background/*": ["./src/extension/background/*"],
+            "@command/*": ["./src/system/command/*"],
             "@content/*": ["./src/extension/content/*"],
-            "@remote/*": ["./src/web/pages/remote/*"],
             "@pages/*": ["./src/web/pages/*"],
+            "@remote/*": ["./src/web/remote/*"],
             "@common/*": ["./src/common/*"],
             "@extension/*": ["./src/extension/*"],
+            "@system/*": ["./src/system/*"],
             "@web/*": ["./src/web/*"],
             "@public/*": ["./public/*"],
             "@src/*": ["./src/*"],
             "@/*": ["./*"]
         }
     },
-    "include": ["src"],
+    "include": ["src", "scripts"],
     "exclude": ["node_modules"]
 }

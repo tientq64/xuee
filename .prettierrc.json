@@ -4,6 +4,7 @@
     "singleQuote": true,
     "tabWidth": 4,
     "trailingComma": "none",
+    "quoteProps": "preserve",
     "overrides": [
         {
             "files": "**/*.{yml,yaml}",

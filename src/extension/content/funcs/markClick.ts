@@ -5,7 +5,17 @@ const selectorsMap: Record<SiteName, string[]> = {
     [SiteName.YouTube]: [
         'ytd-thumbnail',
         'yt-thumbnail-view-model',
-        'ytm-shorts-lockup-view-model'
+        // Video đề xuất lúc gần cuối video.
+        '.ytp-ce-video',
+        // Video đề xuất khi video kết thúc.
+        '.ytp-videowall-still',
+        'ytm-shorts-lockup-view-model',
+        // Nút menu ở góc trên bên trái.
+        '#guide-button',
+        // Tên kênh dưới video.
+        '.ytd-channel-name a.yt-simple-endpoint',
+        // Nút đăng ký.
+        '#subscribe-button-shape'
     ],
     [SiteName.TikTok]: [
         '[data-e2e="search-user-container"]',

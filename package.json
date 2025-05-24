@@ -2,7 +2,7 @@
     "name": "xuee",
     "version": "0.1.0",
     "private": true,
-    "description": "Xueeee!",
+    "description": "Xem YouTube, TikTok, video, ảnh, vv, trên máy tính với nhiều tính năng, điều khiển từ điện thoại.",
     "homepage": "https://xuee.vercel.app",
     "type": "module",
     "repository": {
@@ -13,32 +13,33 @@
         "name": "tientq64",
         "email": "tientq64@gmail.com"
     },
+    "bin": "src/system/command/run.js",
     "scripts": {
         "dev": "tsx scripts/dev/dev.ts",
         "build": "tsx scripts/build/build.ts"
     },
     "dependencies": {
+        "@nut-tree-fork/nut-js": "4.2.6",
         "@raddix/use-battery": "^1.0.0",
         "ahooks": "^3.8.4",
         "chrome-promise": "^3.0.5",
         "dayjs": "^1.11.13",
         "peerjs": "^1.5.3",
-        "react": "^19.1.0",
-        "react-dom": "^19.1.0",
+        "preact": "10.26.6",
         "react-use-pwa-install": "^1.0.3",
         "tailwind-merge": "^3.3.0",
         "valtio": "^2.1.5"
     },
     "devDependencies": {
+        "@davezuko/esbuild-plugin-preact": "0.2.0",
         "@minify-html/node": "0.16.4",
+        "@preact/preset-vite": "2.10.0",
         "@schemastore/chrome-manifest": "^0.0.3",
         "@tailwindcss/vite": "^4.1.6",
+        "@types/archiver": "^6.0.3",
         "@types/chrome": "^0.0.321",
         "@types/node": "^22.15.17",
-        "@types/react": "^19.1.4",
-        "@types/react-dom": "^19.1.5",
-        "@vitejs/plugin-basic-ssl": "^2.0.0",
-        "@vitejs/plugin-react": "^4.4.1",
+        "archiver": "7.0.1",
         "esbuild": "^0.25.4",
         "esbuild-plugin-tailwindcss": "^2.0.1",
         "material-design-icons-literal-types": "^1.0.36",

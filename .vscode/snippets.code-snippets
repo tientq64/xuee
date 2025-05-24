@@ -1,0 +1,22 @@
+{
+	"useBackground": {
+		"scope": "typescript,typescriptreact",
+		"prefix": "ub",
+		"body": "const {$0} = useBackground()"
+	},
+	"useContent": {
+		"scope": "typescript,typescriptreact",
+		"prefix": "uc",
+		"body": "const {$0} = useContent()"
+	},
+	"useRemote": {
+		"scope": "typescript,typescriptreact",
+		"prefix": "ur",
+		"body": "const {$0} = useRemote()"
+	},
+	"useEffect": {
+		"scope": "typescript,typescriptreact",
+		"prefix": "ue",
+		"body": "useEffect(() => {$0}, [$1])"
+	}
+}

@@ -1,3 +1,6 @@
-node_modules
-dist
-dist-extension
+/node_modules
+/dist
+/dist-extension
+/run.js
+/run.vbs
+/setup.js

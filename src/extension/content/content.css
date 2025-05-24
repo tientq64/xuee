@@ -1,13 +1,5 @@
-@import 'tailwindcss/theme' layer(theme) source('.');
-@import 'tailwindcss/utilities' layer(utilities) source('.');
+@import 'tailwindcss/theme' prefix(xuee) source('.');
+@import 'tailwindcss/utilities' prefix(xuee) source('.');
 
-@layer theme, utilities;
-
-[data-xuee-click-numb] {
-    @apply relative bg-orange-300/10;
-
-    &::after {
-        content: attr(data-xuee-click-numb);
-        @apply absolute top-0 right-0 z-50 flex h-[16px] items-center justify-center rounded-[4px] bg-pink-600 px-[4px] font-sans text-[14px] text-white;
-    }
-}
+@import './styles/common.css';
+@import './styles/youtube.css';

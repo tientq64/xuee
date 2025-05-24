@@ -1,11 +1,11 @@
+import { backgroundFuncs, BackgroundFuncs } from '@background/constants/funcs'
 import { sender } from '@background/constants/sender'
-import { backgroundFuncs, BackgroundFuncs } from '@background/funcs'
 import { background } from '@background/store'
 import { peerId } from '@common/constants/constants'
 import { isValidDataPacket } from '@common/helpers/isValidDataPacket'
 import { ref } from '@common/helpers/ref'
 import { safeCall } from '@common/utils/safeCall'
-import { remoteFuncNames } from '@remote/funcs'
+import { remoteFuncNames } from '@remote/constants/funcNames'
 import dayjs from 'dayjs'
 import Peer, { DataConnection, PeerError } from 'peerjs'
 import { sendTabInfoToRemote } from './sendTabInfoToRemote'
@@ -15,23 +15,31 @@ let peer: Peer | undefined
 let reconnectErrorPeerTimeoutId: number = 0
 
 export function startHostPeer(): void {
+    clearTimeout(reconnectErrorPeerTimeoutId)
+    background.peerError = undefined
     if (peer !== undefined) return
+
     peer = new Peer(peerId)
     peer.on('error', handlePeerError)
     peer.on('disconnected', handlePeerDisconnected)
-    peer.on('connection', handlePeerConnection)
     peer.on('close', handlePeerClose)
+    peer.on('connection', handlePeerConnection)
 }
 
 function reconnectErrorPeer(delay: number): void {
-    peer?.destroy()
-    peer = undefined
     clearTimeout(reconnectErrorPeerTimeoutId)
-    reconnectErrorPeerTimeoutId = setTimeout(startHostPeer, delay)
+    if (peer !== undefined) {
+        peer.removeAllListeners()
+        peer.destroy()
+    }
+    peer = undefined
+    background.conn = undefined
+    reconnectErrorPeerTimeoutId = window.setTimeout(startHostPeer, delay)
 }
 
 function handlePeerError(error: PeerError<any>): void {
     console.log(1, dayjs().format('HH:mm:ss.SSS'), error.type, error)
+    background.peerError = error
     reconnectErrorPeer(5000)
 }
 
@@ -40,14 +48,30 @@ function handlePeerDisconnected(): void {
     reconnectErrorPeer(5000)
 }
 
+function handlePeerClose(): void {
+    console.log(3, dayjs().format('HH:mm:ss.SSS'))
+    reconnectErrorPeer(5000)
+}
+
 function handlePeerConnection(conn: DataConnection): void {
+    background.conn?.close()
+    conn.on('iceStateChanged', handleConnIceStateChanged)
     conn.on('open', handleConnOpen.bind(null, conn))
     conn.on('data', handleConnData)
 }
 
-function handlePeerClose(): void {
-    console.log(3, dayjs().format('HH:mm:ss.SSS'))
-    reconnectErrorPeer(5000)
+function handleConnIceStateChanged(iceState: RTCIceConnectionState): void {
+    switch (iceState) {
+        case 'disconnected':
+            background.conn = undefined
+            break
+        case 'checking':
+            background.conn = undefined
+            break
+        case 'connected':
+            background.peerError = undefined
+            break
+    }
 }
 
 async function handleConnOpen(conn: DataConnection): Promise<void> {

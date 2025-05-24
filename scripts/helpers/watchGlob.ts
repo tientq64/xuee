@@ -7,7 +7,7 @@ export function watchGlob(
 ): void {
     const paths: string[] = globSync(pattern)
     if (paths.length === 0) {
-        throw Error('Không tìm thấy mục nào để watch')
+        throw Error(`Không tìm thấy mục nào để watch: ${pattern}`)
     }
     for (let path of paths) {
         path = path.replaceAll('\\', '/')
