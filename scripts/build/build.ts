@@ -1,15 +1,10 @@
 import archiver from 'archiver'
 import { log } from 'console'
 import { createWriteStream, readFileSync } from 'fs'
-import { build, InlineConfig, mergeConfig } from 'vite'
 import { ExtensionV2Manifest } from '../../src/common/types/types'
-import { viteConfig } from '../constants/viteConfig'
-import { vitePluginMinify } from '../plugins/vitePluginMinify'
+import { buildWeb } from './buildWeb'
 
-const buildConfig: InlineConfig = {
-    plugins: [vitePluginMinify()]
-}
-await build(mergeConfig(viteConfig, buildConfig))
+await buildWeb()
 
 log('\nĐang tạo file xuee.zip...')
 const zipStream = createWriteStream('./xuee.zip')

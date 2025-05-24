@@ -4,9 +4,10 @@
 	<a href="./README.md">Tiếng Việt</a>
 	<br>
 	<br>
-	<img src="./public/assets/images/icons/icon-512.png" height="128" style="border-radius:44px; object-view-box: inset(44px)">
+	<img src="./public/assets/images/icons/icon-128.png" height="128">
 	<br>
-	Xem YouTube, TikTok, video, ảnh, vv, trên máy tính với nhiều tính năng, điều khiển từ điện thoại.
+	<br>
+	Xem YouTube, TikTok, video, ảnh, vv... trên máy tính với nhiều tính năng, điều khiển từ điện thoại.
 	<br>
 	<br>
 	<img src="https://img.shields.io/github/package-json/v/tientq64/xuee?label=Version">
