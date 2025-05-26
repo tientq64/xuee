@@ -31,3 +31,7 @@
     - Tải về file zip [tại đây][1]. Sau đó đi đến trang `edge://extensions` trên trình duyệt, bật "Chế độ nhà phát triển" và "Cho phép các tiện ích mở rộng từ các cửa hàng khác". Kéo thả file zip đã tải về vào trang đó.
 
 [1]: ./archive/xuee-extension.zip
+
+## 💳 Credit
+
+- <a href="https://www.flaticon.com/free-icons/rose" title="rose icons">Rose icons created by Freepik - Flaticon</a>

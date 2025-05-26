@@ -4,7 +4,7 @@ import { useStatusTile } from '@tiles/useStatusTile'
 
 export function useCommonSheet(): Sheet {
     return {
-        '00': usePeerTile(),
-        '02': useStatusTile()
+        '00': [usePeerTile()],
+        '02': [useStatusTile()]
     }
 }

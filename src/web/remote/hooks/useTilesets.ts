@@ -5,14 +5,16 @@ import { useRemote } from '@remote/store'
 import { Sheet, SubSheetName, Tileset } from '@remote/types/types'
 import { useClickSubSheet } from '@sheets/useClickSubSheet'
 import { useCommonSheet } from '@sheets/useCommonSheet'
+import { useGoToSubSheet } from '@sheets/useGoToSubSheet'
 import { useMainSheet } from '@sheets/useMainSheet'
 import { useMoreSubSheet } from '@sheets/useMoreSubSheet'
+import { useOtherSheet } from '@sheets/useOtherSheet'
 import { useTikTokSheet } from '@sheets/useTikTokSheet'
 import { useYouTubeSheet } from '@sheets/useYouTubeSheet'
 import { useMemo } from 'preact/hooks'
 
 export function useTilesets(): Tileset[] {
-    const { site, subSheetName, sheetId } = useRemote()
+    const { site, subSheetName } = useRemote()
 
     const commonSheet: Sheet = useCommonSheet()
     const mainSheet: Sheet = useMainSheet()
@@ -20,11 +22,12 @@ export function useTilesets(): Tileset[] {
     const siteSheets: Record<SiteName, Sheet> = {
         [SiteName.YouTube]: useYouTubeSheet(),
         [SiteName.TikTok]: useTikTokSheet(),
-        [SiteName.Other]: {}
+        [SiteName.Other]: useOtherSheet()
     }
     const subSheets: Record<SubSheetName, Sheet> = {
         [SubSheetName.More]: useMoreSubSheet(),
-        [SubSheetName.Click]: useClickSubSheet()
+        [SubSheetName.Click]: useClickSubSheet(),
+        [SubSheetName.GoTo]: useGoToSubSheet()
     }
 
     const tilesets = useMemo<Tileset[]>(() => {
@@ -39,7 +42,7 @@ export function useTilesets(): Tileset[] {
         sheet = mergeSheet(commonSheet, sheet)
 
         return sheetToTilesets(sheet)
-    }, [sheetId, commonSheet, mainSheet, siteSheets, subSheets])
+    }, [commonSheet, mainSheet, siteSheets, subSheets])
 
     return tilesets
 }

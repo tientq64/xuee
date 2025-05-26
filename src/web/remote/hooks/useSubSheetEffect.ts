@@ -4,7 +4,7 @@ import { EffectCallback, Inputs, useEffect } from 'preact/hooks'
 
 export function useSubSheetEffect(
     effect: EffectCallback,
-    targetSubSheetName: SubSheetName,
+    targetSubSheetName: SubSheetName | undefined,
     deps: Inputs = []
 ): void {
     const { subSheetName } = useRemote()

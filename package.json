@@ -1,6 +1,6 @@
 {
     "name": "xuee",
-    "version": "0.1.0",
+    "version": "0.2.1",
     "private": true,
     "description": "Xem YouTube, TikTok, video, ảnh, vv... trên máy tính với nhiều tính năng, điều khiển từ điện thoại.",
     "homepage": "https://xuee.vercel.app",
@@ -24,6 +24,7 @@
         "@raddix/use-battery": "^1.0.0",
         "ahooks": "^3.8.4",
         "chrome-promise": "^3.0.5",
+        "clsx": "2.1.1",
         "dayjs": "^1.11.13",
         "peerjs": "^1.5.3",
         "preact": "^10.26.6",

@@ -54,11 +54,10 @@ export type SheetCoord =
     | '81'
     | '82'
 
-export type SheetTile = Tileset | Tile
-
-export type Sheet = Partial<Record<SheetCoord, SheetTile>>
+export type Sheet = Partial<Record<SheetCoord, Tileset>>
 
 export enum SubSheetName {
     More = 'more',
-    Click = 'click'
+    Click = 'click',
+    GoTo = 'goTo'
 }

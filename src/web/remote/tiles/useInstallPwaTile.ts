@@ -1,13 +1,18 @@
 import { Tile } from '@remote/types/types'
+import { useMemo } from 'preact/hooks'
 import { usePWAInstall } from 'react-use-pwa-install'
 
-export function useInstallPwaTile(): Tile {
-    const installPwa = usePWAInstall()
+type PWAInstall = (() => Promise<boolean>) | null
 
-    return {
-        text: 'Cài như ứng dụng',
-        icon: 'dashboard_customize',
-        disabled: installPwa === null,
-        press: installPwa
-    }
+export function useInstallPWATile(): Tile {
+    const installPWA: PWAInstall = usePWAInstall()
+
+    return useMemo(() => {
+        return {
+            text: 'Cài như ứng dụng',
+            icon: 'dashboard_customize',
+            disabled: installPWA === null,
+            press: installPWA
+        }
+    }, [installPWA])
 }

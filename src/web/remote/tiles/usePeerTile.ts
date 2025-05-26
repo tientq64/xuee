@@ -5,13 +5,23 @@ import { Tile, TileColor } from '@remote/types/types'
 import { useNetwork } from 'ahooks'
 import { MaterialSymbols } from 'material-design-icons-literal-types'
 import { DataConnection, PeerError, PeerErrorType } from 'peerjs'
+import { useMemo } from 'preact/hooks'
 import { Snapshot } from 'valtio'
 
 export function usePeerTile(): Tile {
     const { conn, peerError, site } = useRemote()
     const { effectiveType } = useNetwork()
 
-    return getPeerTile(conn, peerError, effectiveType, 'Đang kết nối...', site.name, reconnectPeer)
+    return useMemo(() => {
+        return getPeerTile(
+            conn,
+            peerError,
+            effectiveType,
+            'Đang kết nối...',
+            site.name,
+            reconnectPeer
+        )
+    }, [conn, peerError, effectiveType, site.name])
 }
 
 export function getPeerTile(

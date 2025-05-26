@@ -5,5 +5,5 @@ export function fullmedia(isFullmedia?: boolean): void {
     isFullmedia ??= !content.isFullmedia
 
     content.isFullmedia = isFullmedia
-    sender.fullscreen(false)
+    sender.fullscreen(true)
 }

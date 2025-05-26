@@ -18,5 +18,10 @@
 		"scope": "typescript,typescriptreact",
 		"prefix": "ue",
 		"body": "useEffect(() => {$0}, [$1])"
+	},
+	"useMemo": {
+		"scope": "typescript,typescriptreact",
+		"prefix": "um",
+		"body": "useMemo(() => {$0}, [$1])"
 	}
 }

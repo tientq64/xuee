@@ -1,12 +1,17 @@
 import { useRemote } from '@remote/store'
 import { Tile, TileColor } from '@remote/types/types'
+import { useMemo } from 'preact/hooks'
 
-export function useClickNumbIntTile(numb: number, cb: (numb: number) => void): Tile {
+export type ClickNumbIntTileCallback = (numb: number) => void
+
+export function useClickNumbIntTile(numb: number, cb: ClickNumbIntTileCallback): Tile {
     const { clickNumbOpenInNewTab } = useRemote()
 
-    return {
-        iconText: numb,
-        color: clickNumbOpenInNewTab ? TileColor.Yellow : undefined,
-        press: () => cb?.(numb)
-    }
+    return useMemo(() => {
+        return {
+            iconText: numb,
+            color: clickNumbOpenInNewTab ? TileColor.Yellow : undefined,
+            press: () => cb?.(numb)
+        }
+    }, [clickNumbOpenInNewTab, numb, cb])
 }

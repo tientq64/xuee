@@ -1,21 +1,26 @@
 import { Sheet, SheetCoord, Tileset } from '@remote/types/types'
-import { getTileset } from './getTileset'
 
 export function mergeSheet(sheetA: Sheet, sheetB: Sheet): Sheet {
     const sheet: Sheet = { ...sheetA }
 
-    for (const coord in sheetB) {
-        const tilesetA: Tileset = getTileset(sheetA, coord)
-        const tilesetB: Tileset = getTileset(sheetB, coord)
+    for (const coordB in sheetB) {
+        const coord = coordB as SheetCoord
+
+        const tilesetB: Tileset | undefined = sheetB[coord]
+        if (tilesetB === undefined) continue
+
+        const tilesetA: Tileset | undefined = sheetA[coord]
+        if (tilesetA === undefined) {
+            sheet[coord] = tilesetB
+            continue
+        }
+        const tileset: Tileset = [...tilesetA]
 
         tilesetB.forEach((tileB, i) => {
-            if (tileB !== undefined) {
-                tilesetA[i] = tileB
-            }
+            if (tileB === undefined) return
+            tileset[i] = tileB
         })
-        if (tilesetA.length) {
-            sheet[coord as SheetCoord] = tilesetA
-        }
+        sheet[coord] = tileset
     }
 
     return sheet

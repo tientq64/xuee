@@ -1,9 +1,11 @@
-import { clsm } from '@common/utils/clsm'
 import { safeCall } from '@common/utils/safeCall'
+import { holdTime } from '@remote/constants/constants'
 import { vibrate } from '@remote/funcs/vibrate'
 import { remote, useRemote } from '@remote/store'
 import { SubSheetName, Tile, TileColor, Tileset } from '@remote/types/types'
+import clsx from 'clsx'
 import { VNode } from 'preact'
+import { memo, TouchEvent } from 'preact/compat'
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks'
 import { TileIconTag } from './TileIconTag'
 
@@ -12,8 +14,8 @@ interface TileTagProps {
     index: number
 }
 
-export function TileTag({ tileset, index }: TileTagProps): VNode {
-    const { subSheetName } = useRemote()
+export const TileTag = memo(({ tileset, index }: TileTagProps): VNode => {
+    const { subSheetName, sheetId } = useRemote()
 
     const [pressed, setPressed] = useState<boolean>(false)
     const [holded, setHolded] = useState<boolean>(false)
@@ -37,10 +39,12 @@ export function TileTag({ tileset, index }: TileTagProps): VNode {
         return 'bg-zinc-600'
     }, [tile])
 
-    const handleTouchStart = (): void => {
+    const handleTouchStart = (event: TouchEvent<HTMLDivElement>): void => {
+        event.preventDefault()
         setPressed(true)
-        if (subTile) {
-            holdingTimeoutId.current = window.setTimeout(setHolded, 300, true)
+        if (subTile !== undefined) {
+            clearTimeout(holdingTimeoutId.current)
+            holdingTimeoutId.current = window.setTimeout(handleHold, holdTime)
         }
     }
 
@@ -69,10 +73,14 @@ export function TileTag({ tileset, index }: TileTagProps): VNode {
         }
     }
 
+    const handleHold = (): void => {
+        setHolded(true)
+    }
+
     useEffect(() => {
         if (!pressed || tile === undefined) return
         vibrate()
-    }, [pressed])
+    }, [pressed, tile])
 
     useEffect(() => {
         if (!holded) return
@@ -80,18 +88,23 @@ export function TileTag({ tileset, index }: TileTagProps): VNode {
     }, [holded])
 
     useEffect(() => {
-        return () => clearTimeout(holdingTimeoutId.current)
-    }, [])
+        return () => {
+            setPressed(false)
+            setHolded(false)
+            setMoved(false)
+            clearTimeout(holdingTimeoutId.current)
+        }
+    }, [sheetId])
 
     return (
         <div
-            className={clsm(
-                'relative rounded-md',
+            className={clsx(
+                'relative touch-none rounded-md',
                 cornerTileClasses[index],
                 tile !== undefined && 'z-10',
                 pressed && (tile !== undefined || subTile !== undefined)
                     ? ['scale-105', pressColor]
-                    : 'bg-zinc-900 transition-[scale,background-color] duration-700 ease-out',
+                    : 'bg-zinc-900',
                 holded && 'z-20 outline-[3px] outline-orange-300'
             )}
             onTouchStart={handleTouchStart}
@@ -100,11 +113,11 @@ export function TileTag({ tileset, index }: TileTagProps): VNode {
         >
             {tile !== undefined && (
                 <div
-                    className={clsm(
+                    className={clsx(
                         `pointer-events-none flex size-full flex-col items-center justify-center
                         gap-2 p-2`,
                         tile.color,
-                        tile.disabled && 'text-zinc-500'
+                        tile.disabled && 'text-zinc-500!'
                     )}
                 >
                     {tile.content ?? (
@@ -120,10 +133,10 @@ export function TileTag({ tileset, index }: TileTagProps): VNode {
 
             {subTile !== undefined && (
                 <div
-                    className={clsm(
+                    className={clsx(
                         'pointer-events-none absolute top-0.5 right-1',
                         subTile.color,
-                        subTile.disabled ? 'text-zinc-800' : 'text-zinc-500'
+                        subTile.disabled ? 'text-zinc-800!' : 'text-zinc-500'
                     )}
                 >
                     <TileIconTag tile={subTile} isSubTile />
@@ -131,7 +144,7 @@ export function TileTag({ tileset, index }: TileTagProps): VNode {
             )}
         </div>
     )
-}
+})
 
 const cornerTileClasses: Record<number, string> = {
     0: 'rounded-tl-[36px]',

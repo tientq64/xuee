@@ -1,3 +1,3 @@
 export function isRealPC(): boolean {
-    return navigator.maxTouchPoints === 1 || !('ontouchstart' in window)
+    return navigator.maxTouchPoints === 0 || !('ontouchstart' in window)
 }

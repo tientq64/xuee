@@ -41,22 +41,24 @@ export function useStatusTile(): Tile {
         setTime(dayjs())
     }, 1000 * 60)
 
-    return {
-        content: (
-            <div className="flex h-full flex-col items-center leading-4">
-                <div className="flex items-center justify-center gap-1">
-                    <div>{time.format('hh:mm')}</div>
+    return useMemo(() => {
+        return {
+            content: (
+                <div className="flex h-full flex-col items-center leading-4">
+                    <div className="flex items-center justify-center gap-1">
+                        <div>{time.format('hh:mm')}</div>
 
-                    <div className="flex items-center">
-                        <Icon className={batteryColor} name={batteryIconName} size={20} />
-                        {batteryLevel ?? '--'}
+                        <div className="flex items-center">
+                            <Icon className={batteryColor} name={batteryIconName} size={20} />
+                            {batteryLevel ?? '--'}
+                        </div>
+                    </div>
+
+                    <div>
+                        {tabIndex + 1} / {tabTotal}
                     </div>
                 </div>
-
-                <div>
-                    {tabIndex + 1} / {tabTotal}
-                </div>
-            </div>
-        )
-    }
+            )
+        }
+    }, [time, batteryColor, batteryIconName, batteryLevel, tabIndex, tabTotal])
 }

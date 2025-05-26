@@ -1,1 +1,8 @@
-export const commandFuncNames = ['mouseMove', 'pressKey', 'typeText']
+export const commandFuncNames = [
+    'mouseMove',
+    'moveCursorToCorner',
+    'pressKey',
+    'printScreen',
+    'recordScreen',
+    'typeText'
+]

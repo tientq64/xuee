@@ -1,6 +1,6 @@
-import { clsm } from '@common/utils/clsm'
 import { Tile } from '@remote/types/types'
 import { Icon } from '@web/components/Icon'
+import clsx from 'clsx'
 import { VNode } from 'preact'
 
 interface TileIconTagProps {
@@ -18,7 +18,7 @@ export function TileIconTag({ tile, isSubTile = false }: TileIconTagProps): VNod
         <div className="flex min-h-9 items-center justify-center">
             {tile.icon !== undefined && (
                 <Icon
-                    className={clsm(tile.className, tile.spin && 'animate-spin')}
+                    className={clsx(tile.className, tile.spin && 'animate-spin')}
                     source={tile.icon}
                     size={size}
                 />

@@ -1,8 +1,8 @@
-import { clsm } from '@common/utils/clsm'
 import { Tile } from '@remote/types/types'
 import { getPeerTile } from '@tiles/usePeerTile'
 import { Icon } from '@web/components/Icon'
 import { useNetwork } from 'ahooks'
+import clsx from 'clsx'
 import { VNode } from 'preact'
 import { startHostPeer } from './helpers/startHostPeer'
 import { useExposeBgTab } from './hooks/useExposeBgTab'
@@ -36,7 +36,7 @@ export function BackgroundApp(): VNode {
     return (
         <div class="flex h-full flex-col items-center justify-center gap-3">
             <Icon
-                className={clsm(tile.color, tile.spin && 'animate-pending -scale-x-100')}
+                className={clsx(tile.color, tile.spin && 'animate-pending -scale-x-100')}
                 name={tile.icon}
                 size={40}
             />

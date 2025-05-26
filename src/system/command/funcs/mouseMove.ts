@@ -1,15 +1,12 @@
-import { mouse, Point, screen } from '@nut-tree-fork/nut-js'
+import { getMousePositionInfo, MousePositionInfo } from '@command/helpers/getMousePositionInfo'
+import { mouse } from '@nut-tree-fork/nut-js'
 
 export async function mouseMove(
     x?: number | number,
     y?: number | number,
     relative: boolean = false
 ): Promise<void> {
-    const [pos, width, height]: [Point, number, number] = await Promise.all([
-        mouse.getPosition(),
-        screen.width(),
-        screen.height()
-    ])
+    const [pos, width, height]: MousePositionInfo = await getMousePositionInfo()
 
     if (typeof x === 'string') {
         x = width * (parseInt(x) / 100)

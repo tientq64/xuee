@@ -9,10 +9,46 @@
     "start_url": "/remote",
     "icons": [
         {
+            "src": "/assets/images/icons/icon-128-maskable.png",
+            "sizes": "128x128",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/assets/images/icons/icon-128.png",
+            "sizes": "128x128",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/assets/images/icons/icon-144-maskable.png",
+            "sizes": "144x144",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
             "src": "/assets/images/icons/icon-144.png",
             "sizes": "144x144",
             "type": "image/png",
             "purpose": "any"
+        },
+        {
+            "src": "/assets/images/icons/icon-256-maskable.png",
+            "sizes": "256x256",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/assets/images/icons/icon-256.png",
+            "sizes": "256x256",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/assets/images/icons/icon-512-maskable.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
         },
         {
             "src": "/assets/images/icons/icon-512.png",
