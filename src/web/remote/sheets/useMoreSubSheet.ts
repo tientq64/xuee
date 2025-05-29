@@ -1,5 +1,5 @@
 import { Sheet } from '@remote/types/types'
-import { useInstallPWATile } from '@tiles/useInstallPwaTile'
+import { useInstallPWATile } from '@tiles/useInstallPWATile'
 import { useMoreTile } from '@tiles/useMoreTile'
 import { usePrintScreenTile } from '@tiles/usePrintScreenTile'
 import { useRecordScreenTile } from '@tiles/useRecordScreenTile'

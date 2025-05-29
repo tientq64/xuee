@@ -1,7 +1,7 @@
+import { Icon } from '@common/components/Icon'
 import { useBattery } from '@raddix/use-battery'
 import { useRemote } from '@remote/store'
 import { Tile, TileColor } from '@remote/types/types'
-import { Icon } from '@web/components/Icon'
 import { useInterval } from 'ahooks'
 import dayjs, { Dayjs } from 'dayjs'
 import { MaterialSymbols } from 'material-design-icons-literal-types'

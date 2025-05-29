@@ -1,4 +1,5 @@
 import { JSONSchemaForGoogleChromeExtensionManifestFiles } from '@schemastore/chrome-manifest'
+import { HTMLAttributes } from 'preact/compat'
 
 export type AnyFunction = (...args: any[]) => any
 
@@ -16,3 +17,5 @@ export interface ExtensionV2Manifest extends JSONSchemaForGoogleChromeExtensionM
     web_accessible_resources?: string[]
     content_security_policy?: string
 }
+
+export type DivHTMLAttributes = HTMLAttributes<HTMLDivElement>

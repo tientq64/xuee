@@ -16,7 +16,7 @@ export function Icon({ className, name, source = name ?? '', size = 32 }: IconPr
         <>
             {!isUrl && (
                 <span
-                    className={clsx('material-symbols-rounded', className)}
+                    className={clsx('material-symbols-rounded select-none', className)}
                     style={{
                         fontSize: size
                     }}

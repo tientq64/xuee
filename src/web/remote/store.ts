@@ -17,6 +17,7 @@ export interface Remote {
     tabTotal: number
     tabIndex: number
     tabId: number | undefined
+    tilesetIds: string[]
 }
 
 export const remote = proxy<Remote>({
@@ -32,7 +33,8 @@ export const remote = proxy<Remote>({
     clickNumbTimeoutId: 0,
     tabTotal: 0,
     tabIndex: -1,
-    tabId: undefined
+    tabId: undefined,
+    tilesetIds: []
 })
 
 export function useRemote(): Snapshot<Remote> {

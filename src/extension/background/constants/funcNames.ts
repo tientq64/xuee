@@ -6,5 +6,7 @@ export const backgroundFuncNames = [
     'navigateBrowser',
     'reloadTab',
     'reopenClosedTab',
-    'switchTab'
+    'switchTab',
+    'syncAppDataFromGist',
+    'syncAppDataToGist'
 ]

@@ -1,5 +1,5 @@
+import { Icon } from '@common/components/Icon'
 import { Tile } from '@remote/types/types'
-import { Icon } from '@web/components/Icon'
 import clsx from 'clsx'
 import { VNode } from 'preact'
 

@@ -1,7 +1,7 @@
 import { SiteName } from '@common/constants/sites'
 import { mergeSheet } from '@remote/helpers/mergeSheet'
 import { sheetToTilesets } from '@remote/helpers/sheetToTilesets'
-import { useRemote } from '@remote/store'
+import { remote, useRemote } from '@remote/store'
 import { Sheet, SubSheetName, Tileset } from '@remote/types/types'
 import { useClickSubSheet } from '@sheets/useClickSubSheet'
 import { useCommonSheet } from '@sheets/useCommonSheet'
@@ -14,7 +14,7 @@ import { useYouTubeSheet } from '@sheets/useYouTubeSheet'
 import { useMemo } from 'preact/hooks'
 
 export function useTilesets(): Tileset[] {
-    const { site, subSheetName } = useRemote()
+    const { sheetId } = useRemote()
 
     const commonSheet: Sheet = useCommonSheet()
     const mainSheet: Sheet = useMainSheet()
@@ -31,6 +31,8 @@ export function useTilesets(): Tileset[] {
     }
 
     const tilesets = useMemo<Tileset[]>(() => {
+        const { site, subSheetName } = remote
+
         let sheet: Sheet
 
         if (subSheetName !== undefined) {
@@ -42,7 +44,7 @@ export function useTilesets(): Tileset[] {
         sheet = mergeSheet(commonSheet, sheet)
 
         return sheetToTilesets(sheet)
-    }, [commonSheet, mainSheet, siteSheets, subSheets])
+    }, [sheetId, commonSheet, mainSheet, siteSheets, subSheets])
 
     return tilesets
 }

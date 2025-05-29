@@ -21,6 +21,8 @@
     },
     "dependencies": {
         "@nut-tree-fork/nut-js": "^4.2.6",
+        "@octokit/auth-oauth-device": "8.0.1",
+        "@octokit/rest": "22.0.0",
         "@raddix/use-battery": "^1.0.0",
         "ahooks": "^3.8.4",
         "chrome-promise": "^3.0.5",
@@ -28,8 +30,8 @@
         "dayjs": "^1.11.13",
         "peerjs": "^1.5.3",
         "preact": "^10.26.6",
+        "qrcode.react": "4.2.0",
         "react-use-pwa-install": "^1.0.3",
-        "tailwind-merge": "^3.3.0",
         "valtio": "^2.1.5"
     },
     "devDependencies": {

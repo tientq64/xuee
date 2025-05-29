@@ -2,9 +2,9 @@ import archiver from 'archiver'
 import { log } from 'console'
 import { createWriteStream, readFileSync } from 'fs'
 import { ExtensionV2Manifest } from '../../src/common/types/types'
-import { buildWeb } from './buildWeb'
+import { buildWebFunc } from './buildWebFunc'
 
-await buildWeb()
+await buildWebFunc()
 
 log('\nĐang tạo file xuee.zip...')
 const zipStream = createWriteStream('./xuee.zip')

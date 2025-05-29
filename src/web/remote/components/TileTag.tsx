@@ -1,11 +1,12 @@
 import { safeCall } from '@common/utils/safeCall'
-import { holdTime } from '@remote/constants/constants'
+import { holdTime, moveThreshold } from '@remote/constants/constants'
 import { vibrate } from '@remote/funcs/vibrate'
+import { getTouchDistance } from '@remote/helpers/getTouchDistance'
 import { remote, useRemote } from '@remote/store'
 import { SubSheetName, Tile, TileColor, Tileset } from '@remote/types/types'
 import clsx from 'clsx'
 import { VNode } from 'preact'
-import { memo, TouchEvent } from 'preact/compat'
+import { TouchEvent } from 'preact/compat'
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks'
 import { TileIconTag } from './TileIconTag'
 
@@ -14,12 +15,17 @@ interface TileTagProps {
     index: number
 }
 
-export const TileTag = memo(({ tileset, index }: TileTagProps): VNode => {
+type TouchTileEvent = TouchEvent<HTMLDivElement>
+
+export function TileTag({ tileset, index }: TileTagProps): VNode {
     const { subSheetName, sheetId } = useRemote()
 
     const [pressed, setPressed] = useState<boolean>(false)
     const [holded, setHolded] = useState<boolean>(false)
     const [moved, setMoved] = useState<boolean>(false)
+    const [startedTouch, setStartedTouch] = useState<Touch | undefined>(undefined)
+    const [prevMovedTouch, setPrevMovedTouch] = useState<Touch | undefined>(undefined)
+    const [movedTouch, setMovedTouch] = useState<Touch | undefined>(undefined)
     const holdingTimeoutId = useRef<number>(0)
 
     const tile = useMemo<Tile | undefined>(() => {
@@ -39,28 +45,46 @@ export const TileTag = memo(({ tileset, index }: TileTagProps): VNode => {
         return 'bg-zinc-600'
     }, [tile])
 
-    const handleTouchStart = (event: TouchEvent<HTMLDivElement>): void => {
+    const isEmpty: boolean = tile === undefined && subTile === undefined
+
+    const handleTouchStart = (event: TouchTileEvent): void => {
         event.preventDefault()
+        if (isEmpty) return
         setPressed(true)
+        const [touch]: TouchList = event.touches
+        setStartedTouch(touch)
+        setPrevMovedTouch(touch)
         if (subTile !== undefined) {
             clearTimeout(holdingTimeoutId.current)
             holdingTimeoutId.current = window.setTimeout(handleHold, holdTime)
         }
     }
 
-    const handleTouchMove = (): void => {
+    const handleTouchMove = (event: TouchTileEvent): void => {
+        if (isEmpty) return
+        const [touch]: TouchList = event.touches
+        setMovedTouch(touch)
         clearTimeout(holdingTimeoutId.current)
-        setMoved(true)
+        if (!moved && startedTouch !== undefined) {
+            const distance: number = getTouchDistance(touch, startedTouch)
+            if (distance >= moveThreshold) {
+                setMoved(true)
+            }
+        }
+        setPrevMovedTouch(touch)
     }
 
     const handleTouchEnd = (): void => {
-        clearTimeout(holdingTimeoutId.current)
-        if (!moved && tile !== undefined) {
+        if (pressed && !moved) {
             handlePress()
         }
+        clearTimeout(holdingTimeoutId.current)
         setPressed(false)
         setHolded(false)
         setMoved(false)
+        setStartedTouch(undefined)
+        setPrevMovedTouch(undefined)
+        setMovedTouch(undefined)
     }
 
     const handlePress = (): void => {
@@ -89,10 +113,13 @@ export const TileTag = memo(({ tileset, index }: TileTagProps): VNode => {
 
     useEffect(() => {
         return () => {
+            clearTimeout(holdingTimeoutId.current)
             setPressed(false)
             setHolded(false)
             setMoved(false)
-            clearTimeout(holdingTimeoutId.current)
+            setStartedTouch(undefined)
+            setPrevMovedTouch(undefined)
+            setMovedTouch(undefined)
         }
     }, [sheetId])
 
@@ -144,7 +171,7 @@ export const TileTag = memo(({ tileset, index }: TileTagProps): VNode => {
             )}
         </div>
     )
-})
+}
 
 const cornerTileClasses: Record<number, string> = {
     0: 'rounded-tl-[36px]',

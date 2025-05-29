@@ -1,4 +1,9 @@
 {
+	"destruction": {
+		"scope": "typescript,typescriptreact",
+		"prefix": "de",
+		"body": "const {$0} = $1"
+	},
 	"useBackground": {
 		"scope": "typescript,typescriptreact",
 		"prefix": "ub",
@@ -22,6 +27,6 @@
 	"useMemo": {
 		"scope": "typescript,typescriptreact",
 		"prefix": "um",
-		"body": "useMemo(() => {$0}, [$1])"
+		"body": "useMemo<$1>(() => {$0}, [$2])"
 	}
 }

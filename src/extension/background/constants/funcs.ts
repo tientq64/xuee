@@ -6,6 +6,8 @@ import { navigateBrowser } from '../funcs/navigateBrowser'
 import { reloadTab } from '../funcs/reloadTab'
 import { reopenClosedTab } from '../funcs/reopenClosedTab'
 import { switchTab } from '../funcs/switchTab'
+import { syncAppDataFromGist } from '../funcs/syncAppDataFromGist'
+import { syncAppDataToGist } from '../funcs/syncAppDataToGist'
 
 export const backgroundFuncs = {
     closeTab,
@@ -15,6 +17,8 @@ export const backgroundFuncs = {
     navigateBrowser,
     reloadTab,
     reopenClosedTab,
-    switchTab
+    switchTab,
+    syncAppDataFromGist,
+    syncAppDataToGist
 }
 export type BackgroundFuncs = typeof backgroundFuncs

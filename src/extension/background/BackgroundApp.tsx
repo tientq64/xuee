@@ -1,31 +1,15 @@
-import { Tile } from '@remote/types/types'
-import { getPeerTile } from '@tiles/usePeerTile'
-import { Icon } from '@web/components/Icon'
-import { useNetwork } from 'ahooks'
-import clsx from 'clsx'
 import { VNode } from 'preact'
-import { startHostPeer } from './helpers/startHostPeer'
+import { GistAuth } from './components/GistAuth'
+import { HostPeerQRCode } from './components/HostPeerQRCode'
+import { HostPeerStatus } from './components/HostPeerStatus'
 import { useExposeBgTab } from './hooks/useExposeBgTab'
 import { useKeepAwake } from './hooks/useKeepAwake'
 import { useSetupEvents } from './hooks/useSetupEvents'
 import { useSetupHostMessenger } from './hooks/useSetupHostMessenger'
 import { useSetupHostPeer } from './hooks/useSetupHostPeer'
 import { useSetupState } from './hooks/useSetupState'
-import { useBackground } from './store'
 
 export function BackgroundApp(): VNode {
-    const { conn, peerError } = useBackground()
-    const { effectiveType } = useNetwork()
-
-    const tile: Tile = getPeerTile(
-        conn,
-        peerError,
-        effectiveType,
-        'Chờ kết nối từ điều khiển...',
-        'Đã kết nối với điều khiển',
-        startHostPeer
-    )
-
     useSetupState()
     useKeepAwake()
     useSetupEvents()
@@ -34,13 +18,14 @@ export function BackgroundApp(): VNode {
     useExposeBgTab()
 
     return (
-        <div class="flex h-full flex-col items-center justify-center gap-3">
-            <Icon
-                className={clsx(tile.color, tile.spin && 'animate-pending -scale-x-100')}
-                name={tile.icon}
-                size={40}
-            />
-            {tile.text}
+        <div
+            class="grid h-full grid-cols-2 grid-rows-2 gap-px bg-zinc-700 text-center
+                [&>*]:bg-zinc-900"
+        >
+            <HostPeerStatus />
+            <HostPeerQRCode />
+            <GistAuth />
+            <div />
         </div>
     )
 }

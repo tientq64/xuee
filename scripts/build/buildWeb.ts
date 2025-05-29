@@ -1,10 +1,3 @@
-import { build, InlineConfig, mergeConfig } from 'vite'
-import { viteConfig } from '../constants/viteConfig'
-import { vitePluginMinify } from '../plugins/vitePluginMinify'
+import { buildWebFunc } from './buildWebFunc'
 
-export async function buildWeb(): Promise<void> {
-    const buildConfig: InlineConfig = {
-        plugins: [vitePluginMinify()]
-    }
-    await build(mergeConfig(viteConfig, buildConfig))
-}
+await buildWebFunc()
