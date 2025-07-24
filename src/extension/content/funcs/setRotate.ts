@@ -1,17 +1,9 @@
-import { clamp } from '@common/utils/clamp'
+import { wrap } from '@common/utils/wrap'
 import { content } from '@content/store'
 
-export function setRotate(value: number, relative: boolean = false): void {
-    const { media } = content
-    if (media === null) return
-
-    let { rotate } = content
-    if (relative) {
-        rotate += value
-    } else {
-        rotate = value
-    }
-    rotate = clamp(rotate, 360)
+export function setRotate(rotate: number, relative: boolean = false): void {
+    if (relative) rotate += content.rotate
+    rotate = wrap(rotate, 360)
 
     content.rotate = rotate
 }

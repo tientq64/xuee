@@ -1,5 +1,10 @@
+import { isPortraitMedia } from '@content/helpers/isPortraitMedia'
 import { content, useContent } from '@content/store'
+import { Media } from '@content/types/types'
+import { useMutationObserver } from 'ahooks'
 import { useEffect } from 'preact/hooks'
+
+const mediaClassName: string = 'xuee-media'
 
 export function useMediaChange(): void {
     const { media } = useContent()
@@ -7,12 +12,13 @@ export function useMediaChange(): void {
     useEffect(() => {
         if (media === null) return
 
-        const rotate: number = Number(media.dataset.xueeRotate) || 0
-        const scale: number = Number(media.dataset.xueeScale) || 1
-        const flipX: number = Number(media.dataset.xueeFlipX) || 1
-        const flipY: number = Number(media.dataset.xueeFlipY) || 1
-        const translateX: number = Number(media.dataset.xueeTranslateX) || 1
-        const translateY: number = Number(media.dataset.xueeTranslateY) || 1
+        const rotate: number = Number(media.dataset.rotate) || 0
+        const scale: number = Number(media.dataset.scale) || 1
+        const flipX: number = Number(media.dataset.flipX) || 1
+        const flipY: number = Number(media.dataset.flipY) || 1
+        const translateX: number = Number(media.dataset.translateX) || 1
+        const translateY: number = Number(media.dataset.translateY) || 1
+        const portrait: boolean = isPortraitMedia(media as Media)
 
         content.rotate = rotate
         content.scale = scale
@@ -20,5 +26,26 @@ export function useMediaChange(): void {
         content.flipY = flipY
         content.translateX = translateX
         content.translateY = translateY
+        content.portrait = portrait
+
+        media.classList.add(mediaClassName)
+
+        return () => {
+            media.classList.remove(mediaClassName)
+        }
     }, [media])
+
+    useMutationObserver(
+        () => {
+            const { media, transform } = content
+            if (media === null || transform === '') return
+            if (media.style.transform !== transform) {
+                media.style.transform = transform
+            }
+        },
+        media,
+        {
+            attributeFilter: ['style']
+        }
+    )
 }

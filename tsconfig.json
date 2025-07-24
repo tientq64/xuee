@@ -18,7 +18,7 @@
         "types": ["vite/client", "chrome"],
         "baseUrl": ".",
         "paths": {
-            "@sheets/*": ["./src/web/remote/sheets/*"],
+            "@sheets/*": ["src/web/remote/sheets2/*"],
             "@tiles/*": ["./src/web/remote/tiles/*"],
             "@background/*": ["./src/extension/background/*"],
             "@command/*": ["./src/system/command/*"],

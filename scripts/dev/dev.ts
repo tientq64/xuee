@@ -11,6 +11,7 @@ import { watchGlob } from '../helpers/watchGlob'
 import { copyFileSync } from '../utils/copyFileSync'
 import { outputFileSync } from '../utils/outputFileSync'
 import { watchFuncsFiles } from './watchFuncsFiles'
+import { watchSheetsFiles } from './watchSheetsFiles'
 
 const appDataPath: string | undefined = process.env.APPDATA
 if (appDataPath === undefined) {
@@ -53,6 +54,7 @@ watchGlob('src/extension/content/styles/*.css', null, () => {
 copyFileSync('public/assets/images/icons/icon-128.png', 'dist-extension/icon-128.png')
 
 watchFuncsFiles()
+watchSheetsFiles()
 
 watchGlob('src/system/command/run.vbs', 'change', (path) => {
     copyFileSync(path, 'run.vbs')

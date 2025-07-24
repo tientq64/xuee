@@ -8,7 +8,7 @@ import clsx from 'clsx'
 import { VNode } from 'preact'
 import { TouchEvent } from 'preact/compat'
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks'
-import { TileIconTag } from './TileIconTag'
+import { TileIcon } from './TileIcon'
 
 interface TileTagProps {
     tileset: Tileset
@@ -17,6 +17,7 @@ interface TileTagProps {
 
 type TouchTileEvent = TouchEvent<HTMLDivElement>
 
+/** @deprecated */
 export function TileTag({ tileset, index }: TileTagProps): VNode {
     const { subSheetName, sheetId } = useRemote()
 
@@ -149,7 +150,7 @@ export function TileTag({ tileset, index }: TileTagProps): VNode {
                 >
                     {tile.content ?? (
                         <>
-                            <TileIconTag tile={tile} />
+                            <TileIcon tile={tile} />
                             <div className="min-h-8 text-center leading-4 empty:min-h-4">
                                 {tile.text}
                             </div>
@@ -166,7 +167,7 @@ export function TileTag({ tileset, index }: TileTagProps): VNode {
                         subTile.disabled ? 'text-zinc-800!' : 'text-zinc-500'
                     )}
                 >
-                    <TileIconTag tile={subTile} isSubTile />
+                    <TileIcon tile={subTile} isSubTile />
                 </div>
             )}
         </div>

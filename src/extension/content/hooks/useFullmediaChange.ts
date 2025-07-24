@@ -1,3 +1,4 @@
+import { updateMedia } from '@content/funcs/updateMedia'
 import { useContent } from '@content/store'
 import { useEffect } from 'preact/hooks'
 
@@ -7,8 +8,9 @@ export function useFullmediaChange(): void {
     const { isFullmedia } = useContent()
 
     useEffect(() => {
-        const html: HTMLElement = document.documentElement
+        updateMedia()
 
+        const html: HTMLElement = document.documentElement
         if (isFullmedia) {
             html.classList.add(fullmediaClass)
         } else {

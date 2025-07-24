@@ -1,3 +1,4 @@
+import { sender } from '@background/constants/sender'
 import { Window, WindowState } from '@background/types/types'
 import chromep from 'chrome-promise'
 
@@ -9,6 +10,9 @@ export async function fullscreen(isFullscreen?: boolean): Promise<void> {
 
     isFullscreen ??= win.state !== 'fullscreen'
 
+    if (!isFullscreen) {
+        sender.fullmedia(false)
+    }
     const state: WindowState = isFullscreen ? 'fullscreen' : 'maximized'
     await chromep.windows.update(win.id, { state })
 }

@@ -1,6 +1,7 @@
 import { SiteName } from '@common/constants/sites'
 import { ref } from '@common/helpers/ref'
 import { content } from '@content/store'
+import { Media } from '@content/types/types'
 
 const selectorsMap: Record<SiteName, string> = {
     [SiteName.YouTube]: '.html5-main-video[src]',
@@ -8,17 +9,11 @@ const selectorsMap: Record<SiteName, string> = {
     [SiteName.Other]: 'video'
 }
 
-const mediaClass: string = 'xuee-media'
-
-export function updateMedia(): void {
-    if (content.media !== null) {
-        content.media.classList.remove(mediaClass)
-    }
+export function updateMedia(): Media | null {
     const selector: string = selectorsMap[content.site.name]
-    const media: HTMLVideoElement | HTMLImageElement | null = document.querySelector(selector)
+    const media: Media | null = document.querySelector(selector)
 
-    if (media !== null) {
-        media.classList.add(mediaClass)
-    }
     content.media = ref(media)
+
+    return media
 }

@@ -13,17 +13,36 @@ export const sender = new Proxy<ContentFuncs & RemoteFuncs & CommandFuncs>({} as
             const data: DataPacket = [funcName, args]
 
             if (contentFuncNames.includes(funcName)) {
-                const currentTabId: number | undefined = background.currentTab?.id
-                if (currentTabId === undefined) return
-                chrome.tabs.sendMessage<DataPacket>(currentTabId, data)
+                sendToContent(data)
             } else if (remoteFuncNames.includes(funcName)) {
-                background.conn?.send(data)
+                sendToRemote(data)
             } else if (commandFuncNames.includes(funcName)) {
-                const json: string = JSON.stringify(data)
-                const base64: string = btoa(encodeURIComponent(json))
-                const xueeUrl: string = `xuee://${base64}`
-                location.href = xueeUrl
+                sendToCommand(data)
             }
         }
     }
 })
+
+function sendToContent(data: DataPacket): void {
+    const { currentTab } = background
+    if (currentTab?.id === undefined) return
+
+    chrome.tabs.sendMessage<DataPacket>(currentTab.id, data)
+}
+
+function sendToRemote(data: DataPacket): void {
+    const { conn } = background
+    if (conn === undefined) return
+
+    conn.send(data)
+}
+
+function sendToCommand(data: DataPacket): void {
+    const { bgTabId } = background
+    if (bgTabId === undefined) return
+
+    const json: string = JSON.stringify(data)
+    const base64: string = btoa(encodeURIComponent(json))
+    const xueeUrl: string = `xuee://${base64}`
+    chrome.tabs.update(bgTabId, { url: xueeUrl })
+}

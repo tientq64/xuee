@@ -17,6 +17,7 @@
         "dist/**": true,
         "dist-*/**": true,
         "src/*/*/constants/{funcs,funcNames}.ts": true,
+        "src/web/remote/constants/sheets.ts": true,
         "run.{js,vbs}": true,
         "setup.js": true
     },

@@ -1,8 +1,8 @@
 import { startHostPeer } from '@background/helpers/startHostPeer'
 import { useBackground } from '@background/store'
 import { Icon } from '@common/components/Icon'
-import { Tile } from '@remote/types/types'
-import { getPeerTile } from '@tiles/usePeerTile'
+import { TileProps } from '@remote/components/Tile'
+import { getPeerTileProps } from '@tiles/PeerTile'
 import { useNetwork } from 'ahooks'
 import clsx from 'clsx'
 import { VNode } from 'preact'
@@ -12,10 +12,11 @@ export function HostPeerStatus(): VNode {
     const { conn, peerError } = useBackground()
     const { effectiveType } = useNetwork()
 
-    const tile = useMemo<Tile>(() => {
-        return getPeerTile(
+    const peerTileProps = useMemo<TileProps>(() => {
+        return getPeerTileProps(
             conn,
             peerError,
+            chrome.runtime.id,
             effectiveType,
             'Chờ kết nối từ điện thoại...',
             'Đã kết nối với điện thoại',
@@ -26,11 +27,14 @@ export function HostPeerStatus(): VNode {
     return (
         <div class="flex flex-col items-center justify-center gap-3">
             <Icon
-                className={clsx(tile.color, tile.spin && 'animate-pending -scale-x-100')}
-                name={tile.icon}
+                className={clsx(
+                    peerTileProps.color,
+                    peerTileProps.spinning && 'animate-pending -scale-x-100'
+                )}
+                name={peerTileProps.icon}
                 size={40}
             />
-            {tile.text}
+            {peerTileProps.children}
         </div>
     )
 }

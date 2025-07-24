@@ -1,8 +1,8 @@
-import { DivHTMLAttributes } from '@common/types/types'
+import { HTMLDivAttributes } from '@common/types/types'
 import clsx from 'clsx'
 import { VNode } from 'preact'
 
-export interface BoxProps extends DivHTMLAttributes {
+export interface BoxProps extends HTMLDivAttributes {
     gap?: number | boolean
     row?: boolean
     grow?: boolean

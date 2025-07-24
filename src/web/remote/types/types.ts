@@ -1,6 +1,7 @@
+import { SiteName } from '@common/constants/sites'
 import { AnyFunction } from '@common/types/types'
-import { MaterialSymbols } from 'material-design-icons-literal-types'
 import { VNode } from 'preact'
+import { TouchEvent } from 'preact/compat'
 
 export enum TileColor {
     Red = 'text-rose-400',
@@ -9,21 +10,11 @@ export enum TileColor {
     Blue = 'text-blue-400',
     Gray = 'text-slate-400'
 }
+export type TileTapCallback = AnyFunction
+export type TileMoveCallback = AnyFunction
+export type TileNode = VNode
 
-export interface Tile {
-    text?: string | number
-    icon?: MaterialSymbols
-    iconText?: string | number
-    color?: TileColor
-    spin?: boolean
-    className?: string
-    disabled?: boolean
-    subSheetName?: SubSheetName
-    press?: AnyFunction | null
-    content?: VNode
-}
-
-export type Tileset = [pressTile?: Tile, holdTile?: Tile, moveTile?: Tile]
+export type Tileset = [tapTile?: TileNode, holdTile?: TileNode, moveTile?: TileNode]
 
 export type SheetCoord =
     | '00'
@@ -59,5 +50,15 @@ export type Sheet = Partial<Record<SheetCoord, Tileset>>
 export enum SubSheetName {
     More = 'more',
     Click = 'click',
-    GoTo = 'goTo'
+    GoTo = 'goTo',
+    Seek = 'seek'
 }
+export enum BaseSheetName {
+    Common = 'common',
+    Main = 'main',
+    Media = 'media',
+    Video = 'video'
+}
+export type SheetName = SubSheetName | BaseSheetName | SiteName
+
+export type TouchDivEvent = TouchEvent<HTMLDivElement>

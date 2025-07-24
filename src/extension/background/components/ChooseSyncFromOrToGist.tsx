@@ -4,10 +4,10 @@ import { Box } from '@common/components/Box'
 import { Button } from '@common/components/Button'
 import { Icon } from '@common/components/Icon'
 import { LinkButton } from '@common/components/LinkButton'
-import { DivHTMLAttributes } from '@common/types/types'
+import { HTMLDivAttributes } from '@common/types/types'
 import { VNode } from 'preact'
 
-interface ChooseSyncFromOrToGistProps extends DivHTMLAttributes {
+interface ChooseSyncFromOrToGistProps extends HTMLDivAttributes {
     onChoose?: (syncMode: SyncMode) => void
 }
 

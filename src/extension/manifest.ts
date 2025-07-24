@@ -14,9 +14,9 @@ export const manifest: ExtensionV2Manifest = {
     content_scripts: [
         {
             matches: ['<all_urls>'],
-            exclude_matches: [
-                'https://localhost:5500/remote',
-                'https://192.168.1.4:5500/remote',
+            exclude_globs: [
+                'https://localhost:*/remote',
+                'https://192.168.1.*:*/remote',
                 'https://xuee.vercel.app/remote'
             ],
             js: ['loader.js'],

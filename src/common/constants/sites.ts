@@ -1,25 +1,35 @@
 export enum SiteName {
-    YouTube = 'YouTube',
-    TikTok = 'TikTok',
-    Other = 'Other'
+    YouTube = 'youTube',
+    TikTok = 'tikTok',
+    Threads = 'threads',
+    Other = 'other'
 }
 
 export interface Site {
     name: SiteName
+    text: string
     matches: RegExp
 }
 
 export const sites: Site[] = [
     {
         name: SiteName.YouTube,
-        matches: /^https:\/\/www.youtube.com\//
+        text: 'YouTube',
+        matches: /^https:\/\/www\.youtube\.com\//
     },
     {
         name: SiteName.TikTok,
-        matches: /^https:\/\/(www\.)?tiktok.com\//
+        text: 'TikTok',
+        matches: /^https:\/\/(www\.)?tiktok\.com\//
+    },
+    {
+        name: SiteName.Threads,
+        text: 'Threads',
+        matches: /^https:\/\/www\.threads\.com\//
     },
     {
         name: SiteName.Other,
+        text: 'Khác',
         matches: /.*/
     }
 ]

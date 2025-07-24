@@ -3,6 +3,7 @@ import { receiveTabTotal } from '../funcs/receiveTabTotal'
 import { reconnectErrorConn } from '../funcs/reconnectErrorConn'
 import { reconnectErrorPeer } from '../funcs/reconnectErrorPeer'
 import { reconnectPeer } from '../funcs/reconnectPeer'
+import { scanExtensionQRCode } from '../funcs/scanExtensionQRCode'
 import { vibrate } from '../funcs/vibrate'
 
 export const remoteFuncs = {
@@ -11,6 +12,7 @@ export const remoteFuncs = {
     reconnectErrorConn,
     reconnectErrorPeer,
     reconnectPeer,
+    scanExtensionQRCode,
     vibrate
 }
 export type RemoteFuncs = typeof remoteFuncs

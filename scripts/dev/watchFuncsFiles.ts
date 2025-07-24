@@ -3,6 +3,7 @@ import { basename } from 'path'
 import { format, Options } from 'prettier'
 import prettierOptions from '../../.prettierrc.json'
 import { upperFirst } from '../../src/common/utils/upperFirst'
+import { formatTsCode } from '../helpers/formatTsCode'
 import { watchGlob } from '../helpers/watchGlob'
 import { outputFileSync } from '../utils/outputFileSync'
 
@@ -34,25 +35,21 @@ export function watchFuncsFiles(): void {
             {
                 const codes: string[] = [
                     ...funcNames.map((name) => {
-                        return `import { ${name} } from '../funcs/${name}'`
+                        return `import {${name}} from '../funcs/${name}'`
                     }),
                     '\n',
                     `export const ${kind.name}Funcs = {`,
-                    funcNames.join(', '),
+                    funcNames.join(','),
                     '}',
                     `export type ${upperFirst(kind.name)}Funcs = typeof ${kind.name}Funcs`
                 ]
-                const code: string = codes.filter(Boolean).join('\n')
-                const formatedCode: string = await format(code, {
-                    ...(prettierOptions as Options),
-                    parser: 'typescript'
-                })
-                outputFileSync(`${kind.path}/constants/funcs.ts`, formatedCode)
+                const code: string = await formatTsCode(codes)
+                outputFileSync(`${kind.path}/constants/funcs.ts`, code)
             }
             {
                 const codes: string[] = [
                     `export const ${kind.name}FuncNames = [`,
-                    funcNames.map((name) => `'${name}'`).join(', '),
+                    funcNames.map((name) => `'${name}'`).join(','),
                     ']'
                 ]
                 const code: string = codes.filter(Boolean).join('\n')

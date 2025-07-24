@@ -1,4 +1,3 @@
-import { peerId } from '@common/constants/constants'
 import { isValidDataPacket } from '@common/helpers/isValidDataPacket'
 import { ref } from '@common/helpers/ref'
 import { safeCall } from '@common/utils/safeCall'
@@ -28,9 +27,10 @@ function handlePeerDisconnected(): void {
 }
 
 function handlePeerOpen(): void {
-    const { peer } = remote
+    const { peer, extensionId } = remote
     if (peer === undefined) return
-    const conn: DataConnection = peer.connect(peerId)
+    if (extensionId === undefined) return
+    const conn: DataConnection = peer.connect(extensionId)
     conn.on('close', handleConnClose)
     conn.on('iceStateChanged', handleConnIceStateChanged)
     conn.on('open', handleConnOpen.bind(null, conn))

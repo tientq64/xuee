@@ -3,7 +3,13 @@ export const contentFuncNames = [
     'fullmedia',
     'markClick',
     'navigate',
+    'pausePlay',
     'scroll',
+    'seekBy',
+    'seekToSegment',
+    'setFlipX',
     'setRotate',
+    'setScale',
+    'setVideoQuality',
     'updateMedia'
 ]

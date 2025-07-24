@@ -1,50 +1,28 @@
-import { SiteName } from '@common/constants/sites'
+import { sheets } from '@remote/constants/sheets'
 import { mergeSheet } from '@remote/helpers/mergeSheet'
 import { sheetToTilesets } from '@remote/helpers/sheetToTilesets'
+import { commonSheet } from '@remote/sheets/commonSheet'
+import { mainSheet } from '@remote/sheets/mainSheet'
 import { remote, useRemote } from '@remote/store'
-import { Sheet, SubSheetName, Tileset } from '@remote/types/types'
-import { useClickSubSheet } from '@sheets/useClickSubSheet'
-import { useCommonSheet } from '@sheets/useCommonSheet'
-import { useGoToSubSheet } from '@sheets/useGoToSubSheet'
-import { useMainSheet } from '@sheets/useMainSheet'
-import { useMoreSubSheet } from '@sheets/useMoreSubSheet'
-import { useOtherSheet } from '@sheets/useOtherSheet'
-import { useTikTokSheet } from '@sheets/useTikTokSheet'
-import { useYouTubeSheet } from '@sheets/useYouTubeSheet'
+import { Sheet, Tileset } from '@remote/types/types'
 import { useMemo } from 'preact/hooks'
 
 export function useTilesets(): Tileset[] {
     const { sheetId } = useRemote()
 
-    const commonSheet: Sheet = useCommonSheet()
-    const mainSheet: Sheet = useMainSheet()
-
-    const siteSheets: Record<SiteName, Sheet> = {
-        [SiteName.YouTube]: useYouTubeSheet(),
-        [SiteName.TikTok]: useTikTokSheet(),
-        [SiteName.Other]: useOtherSheet()
-    }
-    const subSheets: Record<SubSheetName, Sheet> = {
-        [SubSheetName.More]: useMoreSubSheet(),
-        [SubSheetName.Click]: useClickSubSheet(),
-        [SubSheetName.GoTo]: useGoToSubSheet()
-    }
-
-    const tilesets = useMemo<Tileset[]>(() => {
+    return useMemo<Tileset[]>(() => {
         const { site, subSheetName } = remote
 
         let sheet: Sheet
 
         if (subSheetName !== undefined) {
-            sheet = subSheets[subSheetName]
+            sheet = sheets[subSheetName]
         } else {
-            sheet = siteSheets[site.name]
+            sheet = sheets[site.name]
             sheet = mergeSheet(mainSheet, sheet)
         }
         sheet = mergeSheet(commonSheet, sheet)
 
         return sheetToTilesets(sheet)
-    }, [sheetId, commonSheet, mainSheet, siteSheets, subSheets])
-
-    return tilesets
+    }, [sheetId])
 }

@@ -4,5 +4,6 @@ export const remoteFuncNames = [
     'reconnectErrorConn',
     'reconnectErrorPeer',
     'reconnectPeer',
+    'scanExtensionQRCode',
     'vibrate'
 ]

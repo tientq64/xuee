@@ -18,4 +18,4 @@ export interface ExtensionV2Manifest extends JSONSchemaForGoogleChromeExtensionM
     content_security_policy?: string
 }
 
-export type DivHTMLAttributes = HTMLAttributes<HTMLDivElement>
+export type HTMLDivAttributes = HTMLAttributes<HTMLDivElement>

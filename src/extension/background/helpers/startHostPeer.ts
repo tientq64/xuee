@@ -1,7 +1,6 @@
 import { backgroundFuncs, BackgroundFuncs } from '@background/constants/funcs'
 import { sender } from '@background/constants/sender'
 import { background } from '@background/store'
-import { peerId } from '@common/constants/constants'
 import { isValidDataPacket } from '@common/helpers/isValidDataPacket'
 import { ref } from '@common/helpers/ref'
 import { safeCall } from '@common/utils/safeCall'
@@ -19,7 +18,7 @@ export function startHostPeer(): void {
     background.peerError = undefined
     if (peer !== undefined) return
 
-    peer = new Peer(peerId)
+    peer = new Peer(chrome.runtime.id)
     peer.on('error', handlePeerError)
     peer.on('disconnected', handlePeerDisconnected)
     peer.on('close', handlePeerClose)
