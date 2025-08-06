@@ -9,6 +9,7 @@ import { seekToSegment } from '../funcs/seekToSegment'
 import { setFlipX } from '../funcs/setFlipX'
 import { setRotate } from '../funcs/setRotate'
 import { setScale } from '../funcs/setScale'
+import { setTranslate } from '../funcs/setTranslate'
 import { setVideoQuality } from '../funcs/setVideoQuality'
 import { updateMedia } from '../funcs/updateMedia'
 
@@ -24,6 +25,7 @@ export const contentFuncs = {
     setFlipX,
     setRotate,
     setScale,
+    setTranslate,
     setVideoQuality,
     updateMedia
 }

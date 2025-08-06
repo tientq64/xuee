@@ -10,6 +10,7 @@ export const contentFuncNames = [
     'setFlipX',
     'setRotate',
     'setScale',
+    'setTranslate',
     'setVideoQuality',
     'updateMedia'
 ]

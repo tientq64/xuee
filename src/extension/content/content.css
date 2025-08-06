@@ -1,5 +1,5 @@
-@import 'tailwindcss/theme' source('.') important;
-@import 'tailwindcss/utilities' source('.') important;
+@import 'tailwindcss/theme' source('.');
+@import 'tailwindcss/utilities' source('.');
 
 @import './styles/common.css';
 @import './styles/youTube.css';

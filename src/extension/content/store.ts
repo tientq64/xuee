@@ -14,7 +14,6 @@ export interface Content {
     translateX: number
     translateY: number
     portrait: boolean
-    transform: string
 }
 
 export const content = proxy<Content>({
@@ -27,8 +26,7 @@ export const content = proxy<Content>({
     flipY: 1,
     translateX: 0,
     translateY: 0,
-    portrait: false,
-    transform: ''
+    portrait: false
 })
 
 export function useContent(): Snapshot<Content> {

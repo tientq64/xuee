@@ -10,11 +10,11 @@ export function useFullmediaChange(): void {
     useEffect(() => {
         updateMedia()
 
-        const html: HTMLElement = document.documentElement
+        const htmlEl: HTMLElement = document.documentElement
         if (isFullmedia) {
-            html.classList.add(fullmediaClass)
+            htmlEl.classList.add(fullmediaClass)
         } else {
-            html.classList.remove(fullmediaClass)
+            htmlEl.classList.remove(fullmediaClass)
         }
     }, [isFullmedia])
 }

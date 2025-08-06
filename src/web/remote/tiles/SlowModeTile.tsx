@@ -7,8 +7,7 @@ export function SlowModeTile(): TileNode {
 
     return (
         <Tile
-            icon="speed_0_25"
-            iconClassName="scale-125"
+            icon="filter_tilt_shift"
             color={slowMode ? TileColor.Yellow : undefined}
             tap={() => (remote.slowMode = !remote.slowMode)}
         >

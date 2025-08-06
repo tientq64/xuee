@@ -20,6 +20,6 @@ export const clickSubSheet: Sheet = {
     '60': [<ClickTile />],
     '61': [<ClickNumberTile number={0} />],
     '62': [<ClickOpenInNewTabTile />],
-    '80': [<ScrollTile amount={-ScrollAmount.Base} />, <ScrollTile amount={-ScrollAmount.Max} />],
-    '90': [<ScrollTile amount={+ScrollAmount.Base} />, <ScrollTile amount={+ScrollAmount.Max} />]
+    '70': [<ScrollTile amount={-ScrollAmount.Base} />, <ScrollTile amount={-ScrollAmount.Max} />],
+    '80': [<ScrollTile amount={+ScrollAmount.Base} />, <ScrollTile amount={+ScrollAmount.Max} />]
 }

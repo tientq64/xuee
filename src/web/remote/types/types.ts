@@ -1,5 +1,4 @@
 import { SiteName } from '@common/constants/sites'
-import { AnyFunction } from '@common/types/types'
 import { VNode } from 'preact'
 import { TouchEvent } from 'preact/compat'
 
@@ -10,8 +9,8 @@ export enum TileColor {
     Blue = 'text-blue-400',
     Gray = 'text-slate-400'
 }
-export type TileTapCallback = AnyFunction
-export type TileMoveCallback = AnyFunction
+export type TileTapCallback = () => void
+export type TileMoveCallback = (moveX: number, moveY: number) => void
 export type TileNode = VNode
 
 export type Tileset = [tapTile?: TileNode, holdTile?: TileNode, moveTile?: TileNode]

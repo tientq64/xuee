@@ -5,11 +5,12 @@ import { useUpdateEffect } from 'ahooks'
 import clsx from 'clsx'
 import { MaterialSymbols } from 'material-design-icons-literal-types'
 import { ComponentChild, VNode } from 'preact'
-import { useContext, useEffect } from 'preact/hooks'
+import { useContext, useEffect, useState } from 'preact/hooks'
 import { TileIcon } from './TileIcon'
 import {
     HoveringContext,
     IndexContext,
+    MovementContext,
     TappedSignalContext,
     TappingContext,
     TilesetIndexContext,
@@ -23,11 +24,13 @@ export interface TileProps {
     color?: TileColor
     spinning?: boolean
     disabled?: boolean
+    tap?: TileTapCallback | null
+    moveStepThreshold?: number
+    moveScale?: number
+    move?: TileMoveCallback | null
     subSheetName?: SubSheetName
     movedSubSheetName?: SubSheetName
     isCustom?: boolean
-    tap?: TileTapCallback | null
-    move?: TileMoveCallback | null
     children?: ComponentChild
 }
 
@@ -38,11 +41,13 @@ export function Tile({
     color,
     spinning,
     disabled,
+    tap,
+    moveStepThreshold = 4,
+    moveScale = 1,
+    move,
     subSheetName,
     movedSubSheetName,
     isCustom,
-    tap,
-    move,
     children
 }: TileProps): VNode {
     const { tapByHover, hoverTapped } = useRemote()
@@ -53,12 +58,20 @@ export function Tile({
     const tapping: boolean = useContext(TappingContext)
     const tappedSignal: number = useContext(TappedSignalContext)
     const hovering: boolean = useContext(HoveringContext) && index === 0
+    const [movementX, movementY] = useContext(MovementContext)
+
+    const [movedX, setMovedX] = useState<number>(0)
+    const [movedY, setMovedY] = useState<number>(0)
 
     const visible: boolean = index === visibleIndex
     const holding: boolean = tapping && visibleIndex === 1
     const moving: boolean = tapping && visibleIndex === 2
 
-    const pressColor: string = color === undefined ? 'bg-zinc-600' : pressColors[color]
+    const pressColor: string = color === undefined ? defaultPressColor : pressColors[color]
+
+    const isPrimary: boolean = moving ? index === 2 : holding ? index === 1 : index === 0
+    const isSecondary: boolean = visibleIndex === 0 && index === 1
+    const isTertiary: boolean = visibleIndex === 0 && index === 2
 
     useUpdateEffect(() => {
         if (tappedSignal === 0 || index === 2) return
@@ -81,15 +94,42 @@ export function Tile({
     }, [hoverTapped])
 
     useUpdateEffect(() => {
-        if (moving && movedSubSheetName !== undefined) {
-            remote.subSheetName = movedSubSheetName
-            remote.tapByHover = true
+        if (!moving || movedSubSheetName === undefined) return
+        remote.subSheetName = movedSubSheetName
+        remote.tapByHover = true
+    }, [moving])
+
+    useEffect(() => {
+        if (!moving) return
+        return () => {
+            setMovedX(0)
+            setMovedY(0)
         }
     }, [moving])
 
+    useEffect((): void => {
+        if (!moving) return
+        setMovedX(movedX + movementX)
+        setMovedY(movedY + movementY)
+    }, [movementX, movementY])
+
+    useEffect(() => {
+        if (!moving || Math.abs(movedX) < moveStepThreshold) return
+        const moveX: number = movedX > 0 ? moveScale : -moveScale
+        safeCall(move, moveX, 0)
+        setMovedX(0)
+    }, [movedX])
+
+    useEffect(() => {
+        if (!moving || Math.abs(movedY) < moveStepThreshold) return
+        const moveY: number = movedY > 0 ? moveScale : -moveScale
+        safeCall(move, 0, moveY)
+        setMovedY(0)
+    }, [movedY])
+
     return (
         <>
-            {((index === 0 && !holding) || (index === 1 && holding)) && (
+            {isPrimary && (
                 <div
                     className={clsx(
                         `pointer-events-none flex size-full flex-col items-center justify-center
@@ -122,10 +162,28 @@ export function Tile({
                 </div>
             )}
 
-            {index === 1 && visibleIndex === 0 && (
+            {isSecondary && (
                 <div
                     className={clsx(
                         'pointer-events-none absolute top-0.5 right-1 text-zinc-500',
+                        color,
+                        disabled && 'text-zinc-800!'
+                    )}
+                >
+                    <TileIcon
+                        icon={icon}
+                        iconText={iconText}
+                        iconClassName={iconClassName}
+                        spinning={spinning}
+                        isSubTile
+                    />
+                </div>
+            )}
+
+            {isTertiary && (
+                <div
+                    className={clsx(
+                        'pointer-events-none absolute top-0.5 left-1 text-zinc-500',
                         color,
                         disabled && 'text-zinc-800!'
                     )}
@@ -157,3 +215,4 @@ const pressColors: Record<TileColor, string> = {
     [TileColor.Blue]: 'bg-blue-500/50',
     [TileColor.Gray]: 'bg-slate-500/50'
 }
+const defaultPressColor: string = 'bg-zinc-600'

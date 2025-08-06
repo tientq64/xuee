@@ -1,5 +1,6 @@
-import { holdTime } from '@remote/constants/constants'
+import { holdTime, moveThreshold } from '@remote/constants/constants'
 import { vibrate } from '@remote/funcs/vibrate'
+import { getTouchDistance } from '@remote/helpers/getTouchDistance'
 import { useRemote } from '@remote/store'
 import { Tileset, TouchDivEvent } from '@remote/types/types'
 import clsx from 'clsx'
@@ -12,6 +13,7 @@ export const VisibleIndexContext = createContext<number>(0)
 export const TappingContext = createContext<boolean>(false)
 export const TappedSignalContext = createContext<number>(0)
 export const HoveringContext = createContext<boolean>(false)
+export const MovementContext = createContext<[number, number]>([0, 0])
 
 interface TilesetProps {
     tileset: Tileset
@@ -25,11 +27,15 @@ export function TilesetTag({ tileset, index }: TilesetProps): VNode {
     const [holding, setHolding] = useState<boolean>(false)
     const [moving, setMoving] = useState<boolean>(false)
     const [tappedSignal, setTappedSignal] = useState<number>(0)
+    const [startTouch, setStartTouch] = useState<Touch | undefined>(undefined)
+    const [prevTouch, setPrevTouch] = useState<Touch | undefined>(undefined)
+    const [movementX, setMovementX] = useState<number>(0)
+    const [movementY, setMovementY] = useState<number>(0)
     const holdTimeoutId = useRef<number>(0)
 
     const [, holdTile, moveTile] = tileset
 
-    const tileIndex: number = moving && moveTile ? 2 : holding ? 1 : 0
+    const tileIndex: number = moving && moveTile !== undefined ? 2 : holding ? 1 : 0
     const hovering: boolean = tapByHover && hoveringTilesetIndex === index
 
     const isEmpty: boolean = tileset.length === 0
@@ -38,6 +44,8 @@ export function TilesetTag({ tileset, index }: TilesetProps): VNode {
         event.preventDefault()
         clearTimeout(holdTimeoutId.current)
         setTapping(true)
+        const [touch]: TouchList = event.touches
+        setStartTouch(touch)
         vibrate()
         if (holdTile) {
             holdTimeoutId.current = window.setTimeout(handleHold, holdTime)
@@ -49,9 +57,22 @@ export function TilesetTag({ tileset, index }: TilesetProps): VNode {
         vibrate()
     }
 
-    const handleTouchMove = (): void => {
-        clearTimeout(holdTimeoutId.current)
-        setMoving(true)
+    const handleTouchMove = (event: TouchDivEvent): void => {
+        const [touch]: TouchList = event.touches
+        if (!moving && startTouch !== undefined) {
+            const distance: number = getTouchDistance(touch, startTouch)
+            if (distance >= moveThreshold) {
+                clearTimeout(holdTimeoutId.current)
+                setMoving(true)
+            }
+        }
+        if (moving) {
+            if (prevTouch !== undefined) {
+                setMovementX(touch.clientX - prevTouch.clientX)
+                setMovementY(touch.clientY - prevTouch.clientY)
+            }
+            setPrevTouch(touch)
+        }
     }
 
     const handleTouchEnd = (): void => {
@@ -66,6 +87,10 @@ export function TilesetTag({ tileset, index }: TilesetProps): VNode {
         setTapping(false)
         setHolding(false)
         setMoving(false)
+        setStartTouch(undefined)
+        setPrevTouch(undefined)
+        setMovementX(0)
+        setMovementY(0)
     }
 
     return (
@@ -87,11 +112,13 @@ export function TilesetTag({ tileset, index }: TilesetProps): VNode {
                     <TappingContext.Provider value={tapping}>
                         <TappedSignalContext.Provider value={tappedSignal}>
                             <HoveringContext.Provider value={hovering}>
-                                {tileset.map((tile, tileIndex) => (
-                                    <IndexContext.Provider value={tileIndex}>
-                                        {tile}
-                                    </IndexContext.Provider>
-                                ))}
+                                <MovementContext.Provider value={[movementX, movementY]}>
+                                    {tileset.map((tile, tileIndex) => (
+                                        <IndexContext.Provider value={tileIndex}>
+                                            {tile}
+                                        </IndexContext.Provider>
+                                    ))}
+                                </MovementContext.Provider>
                             </HoveringContext.Provider>
                         </TappedSignalContext.Provider>
                     </TappingContext.Provider>

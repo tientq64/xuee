@@ -1,7 +1,6 @@
 import { isPortraitMedia } from '@content/helpers/isPortraitMedia'
 import { content, useContent } from '@content/store'
 import { Media } from '@content/types/types'
-import { useMutationObserver } from 'ahooks'
 import { useEffect } from 'preact/hooks'
 
 const mediaClassName: string = 'xuee-media'
@@ -34,18 +33,4 @@ export function useMediaChange(): void {
             media.classList.remove(mediaClassName)
         }
     }, [media])
-
-    useMutationObserver(
-        () => {
-            const { media, transform } = content
-            if (media === null || transform === '') return
-            if (media.style.transform !== transform) {
-                media.style.transform = transform
-            }
-        },
-        media,
-        {
-            attributeFilter: ['style']
-        }
-    )
 }
